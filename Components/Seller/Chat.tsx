@@ -230,12 +230,12 @@ const Chat: React.FC = () => {
             setIsLoadingImage(true);
 
             data.append('file', image as unknown as string);
-            data.append("upload_preset", "linconstore");
-            data.append("cloud_name", "linconstore-cloud")
+            data.append("upload_preset", "products");
+            data.append("cloud_name", "linconstore-test")
 
             try {
                 const response = await axios.post(
-                    "https://api.cloudinary.com/v1_1/linconstore-cloud/image/upload",
+                    "https://api.cloudinary.com/v1_1/linconstore-test/image/upload",
                     data,
                     {
                         headers: {

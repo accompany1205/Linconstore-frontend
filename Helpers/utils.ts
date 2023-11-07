@@ -10,11 +10,11 @@ export function numberWithCommas(x: number) {
 export const uploadImage = async (image: File | null) => {
   const data = new FormData();
   data.append("file", image as unknown as string);
-  data.append("upload_preset", "linconstore");
-  data.append("cloud_name", "linconstore-cloud")
+  data.append("upload_preset", "products");
+  data.append("cloud_name", "linconstore-test")
   try {
     const response = await axios.post(
-      "https://api.cloudinary.com/v1_1/linconstore-cloud/image/upload",
+      "https://api.cloudinary.com/v1_1/linconstore-test/image/upload",
       data,
       {
         headers: {
@@ -33,11 +33,11 @@ export const uploadImages = async (images: FileList[]) => {
   for (const image of images) {
     const data = new FormData();
     data.append("file", image as unknown as string);
-    data.append("cloud_name", "linconstore-cloud")
-    data.append("upload_preset", "linconstore");
+    data.append("cloud_name", "linconstore-test")
+    data.append("upload_preset", "products");
     try {
       const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/linconstore-cloud/image/upload",
+        "https://api.cloudinary.com/v1_1/linconstore-test/image/upload",
         data,
         {
           headers: {
