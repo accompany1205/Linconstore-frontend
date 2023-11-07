@@ -135,7 +135,7 @@ const GenNav: React.FC<Imode> = ({ mode, admin }) => {
               height={50}
               placeholder="blur"
               blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
-              src={"https://res.cloudinary.com/linconstore-cloud/image/upload/f_auto,q_auto/v1/web-asset/y91radan7dkpnwlicnws"}
+              src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/nyd8rxgn7j10epiozghq"}
               alt={"bothword picture"}
             />
           </IconButton>

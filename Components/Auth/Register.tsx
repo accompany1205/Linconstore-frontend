@@ -137,7 +137,7 @@ export default function RegisterPage() {
                   style={{ marginTop: 30, width: "40%", height: "100%" }}
                   placeholder="blur"
                   blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
-                  src={"https://res.cloudinary.com/linconstore-cloud/image/upload/f_auto,q_auto/v1/web-asset/xfbxgm2w8g5v2skmbe4q"}
+                  src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/mhqwtv71irioszotx9d9"}
                   alt={"image of login"}
                 />
               </Box>

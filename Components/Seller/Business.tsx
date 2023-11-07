@@ -263,7 +263,7 @@ export default function Business() {
               style={{ marginTop: 30, width: "100%", height: "100%" }}
               placeholder="blur"
               blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
-              src={"https://res.cloudinary.com/linconstore-cloud/image/upload/f_auto,q_auto/v1/web-asset/jxzwtvuhywv7eegz0hif"}
+              src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/y0n5reqirufgmfxzcfpn"}
               alt={"item image linconstore"}
             />
           </Box>

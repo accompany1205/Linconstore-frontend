@@ -90,7 +90,7 @@ const Footer: React.FC = () => {
           <Grid container sx={{ display: "flex", flexDirection: "row" }}>
             <Grid item xs={isMobile ? 12 : 7} sm={6} md={5}>
               <Image
-                src="https://res.cloudinary.com/linconstore-cloud/image/upload/f_auto,q_auto/v1/web-asset/y91radan7dkpnwlicnws"
+                src="https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/nyd8rxgn7j10epiozghq"
                 placeholder="blur"
                 blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
                 className="footer_logo"

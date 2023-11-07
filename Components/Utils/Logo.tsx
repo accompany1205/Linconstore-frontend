@@ -13,7 +13,7 @@ const Logo: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
       }}
-      src={"https://res.cloudinary.com/linconstore-cloud/image/upload/f_auto,q_auto/v1/web-asset/y91radan7dkpnwlicnws"}
+      src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/foezgis9u2avsc1ojjkq"}
       alt={"avatar of bothword-store"}
     />
   );
