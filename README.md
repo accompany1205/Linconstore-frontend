@@ -27,6 +27,6 @@ test environment live kit.
 live url https://lincon.store
 
 test accounts 
-linconstore.proton.me
+linconstore@proton.me
 DkodGen01$
 ```
