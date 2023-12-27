@@ -28,5 +28,5 @@ live url https://lincon.store
 
 test accounts 
 linconstore@proton.me
-DkodGen01$
+Test123456@
 ```
