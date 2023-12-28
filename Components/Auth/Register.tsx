@@ -81,6 +81,7 @@ export default function RegisterPage() {
     mutate: register,
     isError,
     isSuccess,
+    error
   } = useRegister(onSuccess);
   const [verifyEmail, setVerifyEmail] = React.useState<boolean>(false);
   React.useEffect(() => {
@@ -115,7 +116,6 @@ export default function RegisterPage() {
   };
 
   const isMobile = useMediaQuery('(max-width: 600px)');
-
   return (
     <>
       {!verifyEmail && (
@@ -282,6 +282,11 @@ export default function RegisterPage() {
                   {errors?.terms && (
                     <FormHelperText sx={{ color: "red" }}>
                       {errors?.terms?.message}
+                    </FormHelperText>
+                  )}
+                  {error?.response && (
+                    <FormHelperText sx={{ color: "red" }}>
+                      {error?.response?.data?.error}
                     </FormHelperText>
                   )}
                   <Button
