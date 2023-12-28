@@ -2797,7 +2797,7 @@
             "title": "Wachtwoord opnieuw instellen",
             "btnTitle": "Wachtwoord opnieuw instellen",
             "success_msg": "Er is een resetlink naar uw e-mailadres verzonden.",
-            "error_msg": "Er is iets fout gegaan"
+            "error_msg": "Gebruikersaccount is niet gevonden!"
         },
         "contact": {
             "btn_back": "Rug",

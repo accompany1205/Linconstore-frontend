@@ -2797,7 +2797,7 @@
             "title": "Återställ lösenord",
             "btnTitle": "Återställ lösenord",
             "success_msg": "En återställningslänk har skickats till din e-postadress.",
-            "error_msg": "Något gick fel"
+            "error_msg": "Användarkonto hittades inte!"
         },
         "contact": {
             "btn_back": "Tillbaka",

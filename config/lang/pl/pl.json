@@ -2797,7 +2797,7 @@
             "title": "Zresetuj hasło",
             "btnTitle": "Zresetuj hasło",
             "success_msg": "Link resetujący został wysłany na Twój adres e-mail.",
-            "error_msg": "Coś poszło nie tak"
+            "error_msg": "Konto użytkownika nie zostało znalezione!"
         },
         "contact": {
             "btn_back": "Z powrotem",

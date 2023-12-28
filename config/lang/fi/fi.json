@@ -2797,7 +2797,7 @@
             "title": "Nollaa salasana",
             "btnTitle": "Nollaa salasana",
             "success_msg": "Nollauslinkki on lähetetty sähköpostiosoitteeseesi.",
-            "error_msg": "Jotain meni pieleen"
+            "error_msg": "Käyttäjätiliä ei löydy!"
         },
         "contact": {
             "btn_back": "Takaisin",

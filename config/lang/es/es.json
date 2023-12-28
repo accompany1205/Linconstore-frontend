@@ -2797,7 +2797,7 @@
             "title": "Restablecer la contraseña",
             "btnTitle": "Restablecer la contraseña",
             "success_msg": "Se ha enviado un enlace de reinicio a su dirección de correo electrónico.",
-            "error_msg": "Algo salió mal"
+            "error_msg": "¡No se encuentra la cuenta de usuario!"
         },
         "contact": {
             "btn_back": "Atrás",

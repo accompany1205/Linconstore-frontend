@@ -2797,7 +2797,7 @@
             "title": "Resetiranje lozinke",
             "btnTitle": "Resetiranje lozinke",
             "success_msg": "Veza za poništavanje poslana je na vašu adresu e-pošte.",
-            "error_msg": "Nešto je pošlo po zlu"
+            "error_msg": "Korisnički račun nije pronađen!"
         },
         "contact": {
             "btn_back": "leđa",

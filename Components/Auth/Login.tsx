@@ -83,15 +83,15 @@ export default function LoginPage() {
   const onSellerStatus = (data: IData) => {
     const myData = data.data;
     if (myData === "incomplete") {
-      Cookies.set("status", "inComplete", { expires: 3, secure: true  });
+      Cookies.set("status", "inComplete", { expires: 3, secure: true });
     }
     if (myData === "seller") {
       handleSeller();
-      Cookies.set("storeId", data.storeId, { expires: 3, secure: true  });
-      Cookies.set("status", "seller", { expires: 3, secure: true  });
+      Cookies.set("storeId", data.storeId, { expires: 3, secure: true });
+      Cookies.set("status", "seller", { expires: 3, secure: true });
     }
     if (myData === "invalid") {
-      Cookies.set("status", "invalid", { expires: 3, secure: true  });
+      Cookies.set("status", "invalid", { expires: 3, secure: true });
     }
     if (isLoggined) {
       setIsLoggedIn(false);
@@ -129,6 +129,28 @@ export default function LoginPage() {
             sellerRate: 0,
           })
         );
+      }
+      if (error?.response?.status === 403) {
+        if (error?.response?.data === "USER_PASSWORD_INCORRECT")
+          dispatch(
+            snackBarOpen({
+              message: "The password is incorrect!",
+              snackbarOpen: true,
+              severity: "warning",
+              rate: 0,
+              sellerRate: 0,
+            })
+          );
+        if (error?.response?.data === "USER_NOT_EXIST")
+          dispatch(
+            snackBarOpen({
+              message: "User account doesn't exist",
+              snackbarOpen: true,
+              severity: "warning",
+              rate: 0,
+              sellerRate: 0,
+            })
+          );
       }
     }
   }, [isError]);
