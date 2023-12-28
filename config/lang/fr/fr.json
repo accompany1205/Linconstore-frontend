@@ -2797,7 +2797,7 @@
             "title": "réinitialiser le mot de passe",
             "btnTitle": "réinitialiser le mot de passe",
             "success_msg": "Un lien de réinitialisation a été envoyé à votre adresse e-mail.",
-            "error_msg": "Quelque chose s'est mal passé"
+            "error_msg": "Le compte utilisateur est introuvable !"
         },
         "contact": {
             "btn_back": "Dos",

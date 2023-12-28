@@ -2797,7 +2797,7 @@
             "title": "Nulstille kodeord",
             "btnTitle": "Nulstille kodeord",
             "success_msg": "Et nulstillingslink er blevet sendt til din e-mailadresse.",
-            "error_msg": "Noget gik galt"
+            "error_msg": "Brugerkonto blev ikke fundet!"
         },
         "contact": {
             "btn_back": "Tilbage",

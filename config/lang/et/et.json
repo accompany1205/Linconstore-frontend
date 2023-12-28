@@ -2797,7 +2797,7 @@
             "title": "Lähtestage parool",
             "btnTitle": "Lähtestage parool",
             "success_msg": "Lähtestamislink on saadetud teie e-posti aadressile.",
-            "error_msg": "Midagi läks valesti"
+            "error_msg": "Kasutajakontot ei leitud!"
         },
         "contact": {
             "btn_back": "tagasi",

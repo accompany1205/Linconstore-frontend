@@ -2797,7 +2797,7 @@
             "title": "Resetta la password",
             "btnTitle": "Resetta la password",
             "success_msg": "Un collegamento per il ripristino è stato inviato al tuo indirizzo email.",
-            "error_msg": "Qualcosa è andato storto"
+            "error_msg": "L'account utente non è stato trovato!"
         },
         "contact": {
             "btn_back": "Indietro",

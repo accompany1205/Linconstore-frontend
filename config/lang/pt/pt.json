@@ -2797,7 +2797,7 @@
             "title": "Redefinir senha",
             "btnTitle": "Redefinir senha",
             "success_msg": "Um link de redefinição foi enviado para seu endereço de e-mail.",
-            "error_msg": "Algo deu errado"
+            "error_msg": "A conta do usuário não foi encontrada!"
         },
         "contact": {
             "btn_back": "Voltar",

@@ -2797,7 +2797,7 @@
             "title": "Jelszó visszaállítása",
             "btnTitle": "Jelszó visszaállítása",
             "success_msg": "A visszaállítási linket elküldtük az Ön e-mail címére.",
-            "error_msg": "Valami elromlott"
+            "error_msg": "Felhasználói fiók nem található!"
         },
         "contact": {
             "btn_back": "Vissza",

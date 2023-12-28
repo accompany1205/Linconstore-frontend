@@ -2797,7 +2797,7 @@
             "title": "Passwort zurücksetzen",
             "btnTitle": "Passwort zurücksetzen",
             "success_msg": "Ein Link zum Zurücksetzen wurde an Ihre E-Mail-Adresse gesendet.",
-            "error_msg": "Etwas ist schief gelaufen"
+            "error_msg": "Benutzerkonto wurde nicht gefunden!"
         },
         "contact": {
             "btn_back": "Zurück",

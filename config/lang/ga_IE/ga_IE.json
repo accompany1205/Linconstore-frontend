@@ -2797,7 +2797,7 @@
             "title": "Athshocraigh Pasfhocal",
             "btnTitle": "Athshocraigh Pasfhocal",
             "success_msg": "Tá nasc athshocraithe seolta chuig do sheoladh ríomhphoist.",
-            "error_msg": "Chuaigh rud eigin mícheart"
+            "error_msg": "Níl cuntas úsáideora aimsithe!"
         },
         "contact": {
             "btn_back": "Ar ais",

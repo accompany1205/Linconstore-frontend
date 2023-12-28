@@ -2797,7 +2797,7 @@
             "title": "Şifreyi yenile",
             "btnTitle": "Şifreyi yenile",
             "success_msg": "E-posta adresinize sıfırlama bağlantısı gönderildi.",
-            "error_msg": "Bir şeyler yanlış gitti"
+            "error_msg": "Kullanıcı hesabı bulunamadı!"
         },
         "contact": {
             "btn_back": "Geri",

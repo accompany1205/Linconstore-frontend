@@ -2797,7 +2797,7 @@
             "title": "Tilbakestille passord",
             "btnTitle": "Tilbakestille passord",
             "success_msg": "En tilbakestillingslenke er sendt til e-postadressen din.",
-            "error_msg": "Noe gikk galt"
+            "error_msg": "Finner ikke brukerkontoen!"
         },
         "contact": {
             "btn_back": "Tilbake",

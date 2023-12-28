@@ -2797,7 +2797,7 @@
             "title": "Reset Passwuert",
             "btnTitle": "Reset Passwuert",
             "success_msg": "E Resetlink gouf op Är E-Mailadress geschéckt.",
-            "error_msg": "Eppes ass falsch gaangen"
+            "error_msg": "Benotzerkont ass net fonnt!"
         },
         "contact": {
             "btn_back": "Zréck",

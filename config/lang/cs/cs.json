@@ -2797,7 +2797,7 @@
             "title": "Obnovit heslo",
             "btnTitle": "Obnovit heslo",
             "success_msg": "Na vaši e-mailovou adresu byl odeslán odkaz pro obnovení.",
-            "error_msg": "Něco se pokazilo"
+            "error_msg": "Uživatelský účet nebyl nalezen!"
         },
         "contact": {
             "btn_back": "Zadní",

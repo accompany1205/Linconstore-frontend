@@ -2797,7 +2797,7 @@
             "title": "Atstatyti slaptažodį",
             "btnTitle": "Atstatyti slaptažodį",
             "success_msg": "Atkūrimo nuoroda išsiųsta jūsų el. pašto adresu.",
-            "error_msg": "Kažkas nutiko"
+            "error_msg": "Vartotojo paskyra nerasta!"
         },
         "contact": {
             "btn_back": "Atgal",
