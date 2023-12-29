@@ -171,8 +171,7 @@ const Refund: React.FC = () => {
                     width={50}
                     height={50}
                     style={{ marginTop: 30, width: "100%", height: "100%" }}
-                    placeholder="blur"
-                    blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                    placeholder="empty"
                     src={refunds[selectedChat]?.productId.photo[0]}
                     alt={"Product Image"}
                   />

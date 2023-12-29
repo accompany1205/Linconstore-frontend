@@ -272,8 +272,7 @@ const OrdersAccordion: React.FC<INewOrders> = ({
                 width: "100%",
                 height: "100%",
               }}
-              placeholder="blur"
-              blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+              placeholder="empty"
               src={productId?.photo[0]}
               alt={"image of review"}
             />

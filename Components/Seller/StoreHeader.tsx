@@ -39,8 +39,7 @@ const StoreHeader: React.JSXElementConstructor<IStore> = ({
             width={isMobile ? 150 : "100%"}
             height={isMobile ? 50 : 150}
             className={"storeLogo"}
-            placeholder="blur"
-            blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+            placeholder="empty"
             src={logo}
             alt={"store logo image"}
           />

@@ -142,8 +142,7 @@ const OrderDetail = () => {
                   width={100}
                   height={100}
                   objectFit="cover"
-                  placeholder="blur"
-                  blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                  placeholder="empty"
                   src={order.productId.photo[0]}
                   alt={"image of product"}
                 />

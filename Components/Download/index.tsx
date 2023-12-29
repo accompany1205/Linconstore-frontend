@@ -27,8 +27,7 @@ const Download = ({ orders }: DownloadOrdersProps) => {
             width={isMobile ? 20 : 100}
             height={isMobile ? 20 : 100}
             style={{ marginTop: isMobile ? 10 : 30, width: "100%", height: "100%" }}
-            placeholder="blur"
-            blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+            placeholder="empty"
             src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/foezgis9u2avsc1ojjkq"}
             alt={"linconstore logo"}
           />
@@ -72,8 +71,7 @@ const Download = ({ orders }: DownloadOrdersProps) => {
                     width={isMobile ? 20 : 100}
                     height={isMobile ? 20 : 100}
                     style={{ marginTop: isMobile ? 10 : 30, width: "100%", height: "100%" }}
-                    placeholder="blur"
-                    blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                    placeholder="empty"
                     src={row.photo[0]}
                     alt={"product image"}
                   />

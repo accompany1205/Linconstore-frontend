@@ -448,10 +448,7 @@ const Checkout: React.FC = () => {
                                     width={100}
                                     height={100}
                                     objectFit="cover"
-                                    placeholder="blur"
-                                    blurDataURL={
-                                      "https://via.placeholder.com/300.png/09f/fff"
-                                    }
+                                    placeholder="empty"
                                     src={photo}
                                     alt={"image of product"}
                                   />
