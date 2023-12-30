@@ -325,10 +325,7 @@ const Chat: React.FC = () => {
                                                             width: "100%",
                                                             height: "100%",
                                                         }}
-                                                        placeholder="blur"
-                                                        blurDataURL={
-                                                            "https://via.placeholder.com/300.png/09f/fff"
-                                                        }
+                                                        placeholder="empty"
                                                         src={message?.image}
                                                         alt={"product image"}
                                                     />
@@ -365,10 +362,7 @@ const Chat: React.FC = () => {
                                                             width: "100%",
                                                             height: "100%",
                                                         }}
-                                                        placeholder="blur"
-                                                        blurDataURL={
-                                                            "https://via.placeholder.com/300.png/09f/fff"
-                                                        }
+                                                        placeholder="empty"
                                                         src={message?.image}
                                                         alt={"product image"}
                                                     />
@@ -478,8 +472,7 @@ const Chat: React.FC = () => {
                                         src={imageData?.secure_url}
                                         alt="product-icon"
                                         style={{ borderRadius: '3px' }}
-                                        placeholder="blur"
-                                        blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                                        placeholder="empty"
                                     />
                                 </Box>
                                 <Box sx={{

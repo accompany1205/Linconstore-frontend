@@ -805,8 +805,7 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                       <Stack spacing={1} direction={"row"} alignItems={"center"}>
                         <Image
                           src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/z3poxvxkgdzeyznvhfru"}
-                          placeholder="blur"
-                          blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                          placeholder="empty"
                           height={25}
                           width={25}
                           style={{ borderRadius: "50%" }}

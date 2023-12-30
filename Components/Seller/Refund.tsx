@@ -175,10 +175,7 @@ const Refund: React.FC = () => {
                             width: "100%",
                             height: "100%",
                           }}
-                          placeholder="blur"
-                          blurDataURL={
-                            "https://via.placeholder.com/300.png/09f/fff"
-                          }
+                          placeholder="empty"
                           src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/ft9qapjkupc4iq2exsok"}
                           alt={"refund img"}
                         />

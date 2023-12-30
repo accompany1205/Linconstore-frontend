@@ -1,6 +1,7 @@
 import { Card, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import slug from "slug";
@@ -14,6 +15,7 @@ const Catcard: React.JSXElementConstructor<ICatCard> = ({
   link,
   id,
 }) => {
+  const [loaded, setLoaded] = useState<boolean>(false);
   const router = useRouter();
   return (
     <Card
@@ -25,15 +27,27 @@ const Catcard: React.JSXElementConstructor<ICatCard> = ({
       sx={{ border: "none", minWidth: "130px" }}
     >
       <Box sx={{ display: "row", flexDirection: "row", p: 2 }}>
+        <Skeleton
+          variant="circular"
+          width={100}
+          height={100}
+          sx={{ bgcolor: 'grey.300', zIndex: 1 }}
+          animation="wave"
+          {...(loaded && { style: { display: 'none' } })}
+        />
         <Image
           className={"category_image"}
           height={100}
           width={100}
           priority={true}
-          placeholder={"blur"}
-          blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+          placeholder={"empty"}
           src={link}
           alt={"image of category"}
+          onLoad={() => setLoaded(true)}
+          style={{
+            display: loaded ? 'block' : 'none',
+            zIndex: 2,
+          }}
         />
         <Grid container direction={"column"} spacing={2}>
           <Grid item xs={4} />

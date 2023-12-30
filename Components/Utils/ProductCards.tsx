@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 import Image from "next/image";
 import Badge from "@mui/material/Badge";
 import { useRouter } from "next/router";
@@ -63,6 +64,7 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
     (state: TCurrency) => state.currency.currency
   );
   const [rate, setRate] = useState<number>(1);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const currency = useCurrency();
   const [exchangeRate, setExchangeRate] =
     useState<Record<string, number>>(null);
@@ -78,9 +80,9 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
     }).replace(/\s+/g, '');
   }
   const countryCode = "seller.verify.countryList." + camelCase(t(`${owner?.owner?.location.toLowerCase()}`));
-  
+
   useEffect(() => {
-     
+
     let interval;
     if (exchangeRate == null) {
       setInterval(() => {
@@ -131,14 +133,30 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
           p: 1,
         }}
       >
+        <Skeleton
+          variant="rectangular"
+          width={150}
+          height={120}
+          sx={{ bgcolor: 'grey.300', zIndex: 1 }}
+          animation="wave"
+          style={{
+            display: !loaded ? 'block' : 'none',
+            zIndex: 2,
+            borderRadius: '18%'
+          }}
+        />
         <Image
           className={"products_image"}
           height={120}
           width={150}
-          placeholder={"blur"}
-          blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+          placeholder={"empty"}
           src={image[0]}
           alt={"picture of product"}
+          onLoad={() => setLoaded(true)}
+          style={{
+            display: loaded ? 'block' : 'none',
+            zIndex: 2,
+          }}
         />
         <Grid container direction={"column"} spacing={0}>
           <Grid item xs={4}>
@@ -156,7 +174,7 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
             <Grid item xs={4}>
               <Stack direction={"row"}>
                 <StarIcon fontSize={"small"} sx={{ color: "#FFD700" }} />{" "}
-                <Typography style={{fontSize: "13px"}}>
+                <Typography style={{ fontSize: "13px" }}>
                   {formatNumber(rating.averageRating)} ({rating.ratings?.length}{" "}
                   {rating.ratings?.length > 1
                     ? t("product.reviews")

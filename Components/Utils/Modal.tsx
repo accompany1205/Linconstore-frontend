@@ -69,8 +69,7 @@ export default function MainModal() {
             width={250}
             height={110}
             style={{ width: "100%", height: "100%" }}
-            placeholder="blur"
-            blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+            placeholder="empty"
             src={image}
           />
           <Typography align="center" fontSize={20}>

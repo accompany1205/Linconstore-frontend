@@ -117,8 +117,7 @@ export default function RateExperience() {
                     width={450}
                     height={350}
                     style={{ marginTop: 30, width: "100%", height: "100%" }}
-                    placeholder="blur"
-                    blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                    placeholder="empty"
                     src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/wljnmkuojwq0odi1s4u1"}
                     alt={"icon of confetti"}
                   />

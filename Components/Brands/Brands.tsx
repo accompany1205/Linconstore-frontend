@@ -269,7 +269,7 @@ const Brands: React.FC<IProducts> = ({
             <img
               width={150}
               height={150}
-              placeholder="blur"
+              placeholder="empty"
               className={"storeLogo"}
               src={image}
               alt={"brand Image"}
