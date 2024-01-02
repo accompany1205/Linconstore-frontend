@@ -34,6 +34,7 @@ import { useInitialRates } from "../hooks/useInitialRates";
 import SellerPayoutModal from "../Components/Utils/Seller/SellerPayoutModal";
 import InitSocket from "../Components/Utils/InitSocket";
 import ConsentBanner from "../Components/ConsentCookies/ConsentCookies";
+import InternetStatusChecker from "../Components/InternetStatusChecker";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -106,6 +107,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ContextProvider>
         <QueryClientProvider client={client}>
           <ThemeProvider theme={customTheme}>
+            <InternetStatusChecker/>
             <DefaultSeo {...SEO} />
             <MainModal />
             <ConsentBanner />
