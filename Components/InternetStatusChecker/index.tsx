@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Snackbar, Alert } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
+import { useEffect, useState } from "react";
 import { baseUrl } from "../../Helpers/baseUrl";
 
 const InternetStatusChecker = () => {
