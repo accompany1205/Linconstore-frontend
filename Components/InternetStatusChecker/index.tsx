@@ -42,7 +42,7 @@ const InternetStatusChecker = () => {
   return (
     <Snackbar
       open={isVisible}
-      autoHideDuration={3000}
+      autoHideDuration={isOnline ? 3000 : null}
       onClose={handleCloseSnackbar}
     >
       <Alert
