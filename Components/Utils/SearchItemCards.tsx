@@ -89,7 +89,7 @@ const SearchItemCards: React.JSXElementConstructor<IProducts> = ({
       {percent && discount && (
         <Badge
           className={"ribbon"}
-          sx={{ p: 3, mt: 1, mx: isMobile ? 0 : 2, minWidth: "70px" }}
+          sx={{ p: 3, mt: 1, mx: isMobile ? 0 : 2, minWidth: "70px", zIndex: 10 }}
           badgeContent={"-" + discount + "% off"}
           color={"error"}
         />
@@ -125,7 +125,7 @@ const SearchItemCards: React.JSXElementConstructor<IProducts> = ({
             <Grid item xs={4} >
               <Stack direction={"row"}>
                 <StarIcon fontSize={"small"} sx={{ color: "#FFD700" }} />{" "}
-                <Typography style={{fontSize: "13px"}}>
+                <Typography style={{ fontSize: "13px" }}>
                   {formatNumber(ratingId?.averageRating)} (
                   {ratingId?.ratings?.length}
                   {ratingId?.ratings?.length > 1
@@ -141,7 +141,7 @@ const SearchItemCards: React.JSXElementConstructor<IProducts> = ({
               {t("product.ships_from")}{" "}
               {t(
                 "seller.verify.countryList." +
-                  owner?.owner?.location.toLowerCase()
+                owner?.owner?.location.toLowerCase()
               )}
             </Typography>
           </Grid>

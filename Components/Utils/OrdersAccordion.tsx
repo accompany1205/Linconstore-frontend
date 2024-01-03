@@ -10,6 +10,7 @@ import {
   CheckBoxOutlineBlank,
   CheckBoxOutlined,
 } from "@mui/icons-material";
+import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Accordion from "@mui/material/Accordion";
@@ -118,6 +119,7 @@ const OrdersAccordion: React.FC<INewOrders> = ({
     updateOrder(data);
   }, []);
   const [validName, setValidName] = useState<boolean>(false);
+  const [loaded, setLoaded] = useState<boolean>(false);
   useEffect(() => {
     if (firstName === undefined || lastName === undefined)
       return setValidName(false);
@@ -265,16 +267,27 @@ const OrdersAccordion: React.FC<INewOrders> = ({
         </Grid> */}
           {/* <Box display={"flex"} gap={1} className="12"> */}
           <Box width={35} height={35}>
+            <Skeleton
+              variant="circular"
+              width={55}
+              height={55}
+              sx={{ bgcolor: 'grey.300', zIndex: 1 }}
+              animation="wave"
+              {...(loaded && { style: { display: 'none' } })}
+            />
             <Image
               width={35}
               height={35}
               style={{
                 width: "100%",
                 height: "100%",
+                display: loaded ? 'block' : 'none',
+                zIndex: 2,
               }}
               placeholder="empty"
               src={productId?.photo[0]}
               alt={"image of review"}
+              onLoad={() => setLoaded(true)}
             />
           </Box>
           <Box

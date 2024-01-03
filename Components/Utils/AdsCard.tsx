@@ -1,9 +1,10 @@
 import { Card, Rating, Stack, Typography, useMediaQuery } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import Button from "@mui/material/Button";
-import { useTranslation } from "react-i18next";
+import Skeleton from "@mui/material/Skeleton";
+import { useSSR, useTranslation } from "react-i18next";
 
 type TProduct = {
   photo: string[];
@@ -34,6 +35,8 @@ const AdsCard: React.FC<IAds> = ({
   const _id = product?._id;
   const isMobile = useMediaQuery("(max-width:1200px)");
 
+  const [loaded, setLoaded] = useState<boolean>(false);
+
   return (
     <Card
       className={"ads_cover"}
@@ -53,14 +56,28 @@ const AdsCard: React.FC<IAds> = ({
           p: 2,
         }}
       >
+        <Skeleton
+          variant="circular"
+          width={55}
+          height={55}
+          sx={{ bgcolor: 'grey.300', zIndex: 1 }}
+          animation="wave"
+          {...(loaded && { style: { display: 'none' } })}
+        />
         <Image
           className={"ads_image"}
           height={150}
           width={100}
-          placeholder={"blur"}
-          blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+          style={{
+            width: "100%",
+            height: "100%",
+            display: loaded ? 'block' : 'none',
+            zIndex: 2,
+          }}
+          placeholder="empty"
           src={photo[0]}
           alt={"image of add_button"}
+          onLoad={() => setLoaded(true)}
         />
         <Box
           sx={{
