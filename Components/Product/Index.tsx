@@ -164,7 +164,6 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
     };
     createReport(newData);
   };
-
   const onCreateReportSuccess = () => {
     setOpenReportModal(false);
     dispatch(
