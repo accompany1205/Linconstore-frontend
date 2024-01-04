@@ -28,10 +28,10 @@ import {
   Container,
 } from "@mui/material";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import WarningIcon from '@mui/icons-material/Warning';
-import ShareIcon from '@mui/icons-material/Share';
+import WarningIcon from "@mui/icons-material/Warning";
+import ShareIcon from "@mui/icons-material/Share";
 import Typography from "@mui/material/Typography";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   FavoriteBorder,
   InfoOutlined,
@@ -41,7 +41,7 @@ import {
   IndeterminateCheckBoxOutlined,
   VerifiedUser,
   Close,
-  Grade
+  Grade,
 } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
@@ -119,10 +119,10 @@ export const groupByKey = (list: any[], key: string, { omitKey = false }) =>
   );
 
 const Product: React.FC<IProducts> = ({ data, reviews }) => {
-  const products = data.product
-  const mProducts = data.mProducts
-  const sProducts = data.sProducts
-  const aProducts = data.aProducts
+  const products = data.product;
+  const mProducts = data.mProducts;
+  const sProducts = data.sProducts;
+  const aProducts = data.aProducts;
   const { t } = useTranslation();
   const {
     title,
@@ -270,7 +270,8 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
   const handleCartChange = useContext(ContextApi).handleCartChange;
   const [variants, setVariants] = useState<IMain[]>([]);
   const [storeId, setStoreId] = useState<string>("");
-  const [productionConditionModal, setProductionConditionModal] = useState<boolean>(false);
+  const [productionConditionModal, setProductionConditionModal] =
+    useState<boolean>(false);
   useEffect(() => {
     // const storeId = localStorage.getItem("storeId");
     const storeId = Cookies.get("storeId");
@@ -293,7 +294,7 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
   const [currentQuantity, setCurrentQuantity] = useState<number>(0);
   const [variantPlaceholder, setVariantPlaceholder] = useState<number[]>([]);
   const [rate, setRate] = useState<number>(1);
-  const [userInfo, setUserInfo] = useState(null)
+  const [userInfo, setUserInfo] = useState(null);
   const [currentCount, setCurrentCount] = useState<number>(0);
   const [variantPrice, setVariantPrice] = useState<number>(0);
   const [pricePlaceholder, setPricePlaceholder] = useState<number[]>([]);
@@ -331,10 +332,10 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
 
     async function init() {
       const rateRes: any = await getUserCurrencySymbol(userString);
-      setCurrencySymbol(rateRes.symbol)
-      setCountryRate(rateRes.rate)
+      setCurrencySymbol(rateRes.symbol);
+      setCountryRate(rateRes.rate);
     }
-    setPrice(products.price)
+    setPrice(products.price);
     init();
   }, [products]);
 
@@ -538,10 +539,10 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
         firstStock && secondStock
           ? getLowestStock([variantStock, variantStock1, variantStock2])
           : firstStock
-            ? getLowestStock([variantStock, variantStock2])
-            : secondStock
-              ? getLowestStock([variantStock1, variantStock2])
-              : getLowestStock([variantStock2]);
+          ? getLowestStock([variantStock, variantStock2])
+          : secondStock
+          ? getLowestStock([variantStock1, variantStock2])
+          : getLowestStock([variantStock2]);
       for (let i = 1; i <= newVariantStock; i++) {
         initialStock.push(i);
       }
@@ -660,7 +661,10 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
       setIsFollowing(false);
     }
 
-    Cookies.set("usf", JSON.stringify(data.following), { expires: 3, secure: true });
+    Cookies.set("usf", JSON.stringify(data.following), {
+      expires: 3,
+      secure: true,
+    });
   };
 
   const isCurrentUserSeller = () => {
@@ -682,7 +686,7 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
   const ownerCountry = owner.owner.location;
   const ownerCountryData = countryCurrency.find(
     (value) => value.country.toLowerCase() === ownerCountry
-  )
+  );
 
   const [userIpCountry, setCountry] = useState<string>("");
 
@@ -691,19 +695,20 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
       const userIpCountry = localStorage.getItem("userIpCountry");
       setCountry(userIpCountry);
     } else {
-      fetchIpAddress()
+      fetchIpAddress();
     }
-
   }, []);
 
   async function fetchIpAddress() {
-    const response = await fetch('https://ipapi.co/json/');
+    const response = await fetch("https://ipapi.co/json/");
     const data = await response.json();
 
     let locData;
 
     if (data) {
-      const res = await fetch(`https://ipinfo.io/${data.ip}?token=6c18281e43a4a1`);
+      const res = await fetch(
+        `https://ipinfo.io/${data.ip}?token=6c18281e43a4a1`
+      );
       locData = await res.json();
       setCountry(locData?.country);
     }
@@ -712,7 +717,8 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
   const userCountry = userInfo ? userInfo.country : userIpCountry;
 
   const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href)
+    navigator.clipboard
+      .writeText(window.location.href)
       .then(() => {
         // Clipboard successfully copied
       })
@@ -729,27 +735,31 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
         description={description}
         content={description}
       >
-        {
-          !showReviews && (
-            <Grid container mt={isMobile && -2}>
-              <Grid item xs={12} md={6}>
-                <Box className="imageGalleryMax" position={"sticky"} sx={{
-                  '& .image-gallery-thumbnail': {
+        {!showReviews && (
+          <Grid container mt={isMobile && -2}>
+            <Grid item xs={12} md={6}>
+              <Box
+                className="imageGalleryMax"
+                position={"sticky"}
+                sx={{
+                  "& .image-gallery-thumbnail": {
                     borderRadius: "20px",
                     borderWidth: "2px",
                   },
-                  '& .image-gallery-thumbnail:hover': {
+                  "& .image-gallery-thumbnail:hover": {
                     borderColor: "var(--primary)",
                   },
-                  '& .active': {
+                  "& .active": {
                     borderColor: "var(--primary)",
                   },
-                  '& .image-gallery-image': {
-                    borderRadius: !isMobile && "20px"
+                  "& .image-gallery-image": {
+                    borderRadius: !isMobile && "20px",
                   },
-                  top: "65px"
-                }}>
-                  <Box sx={{
+                  top: "65px",
+                }}
+              >
+                <Box
+                  sx={{
                     position: "absolute",
                     top: 16,
                     right: isSmall ? 10 : 88,
@@ -760,7 +770,8 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                     alignItems: "center",
                     p: 1,
                     cursor: "pointer",
-                  }} onClick={() => {
+                  }}
+                  onClick={() => {
                     dispatch(
                       snackBarOpen({
                         message: t("product.Product_Copied"),
@@ -770,158 +781,175 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                         sellerRate: 0,
                       })
                     );
-                  }}>
-
-                    <ShareIcon
-                      sx={{ color: "var(--primary)", fontSize: isSmall && 14 }}
-                      onClick={handleCopyToClipboard}
-                    />
-                  </Box>
-                  <ImageGallery
-                    className={"imageGallery"}
-                    showNav={false}
-                    items={images}
-                    showThumbnails={isMobile ? false : true}
-                    showBullets={isMobile ? true : false}
-                    showFullscreenButton={false}
-                    showPlayButton={false}
-                    lazyload={true}
-                    loading="lazy"
+                  }}
+                >
+                  <ShareIcon
+                    sx={{ color: "var(--primary)", fontSize: isSmall && 14 }}
+                    onClick={handleCopyToClipboard}
                   />
                 </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Card sx={{ boxShadow: "none" }}>
-                  <Box
+                <ImageGallery
+                  className={"imageGallery"}
+                  showNav={false}
+                  items={images}
+                  showThumbnails={isMobile ? false : true}
+                  showBullets={isMobile ? true : false}
+                  showFullscreenButton={false}
+                  showPlayButton={false}
+                  lazyload={true}
+                  loading="lazy"
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Card sx={{ boxShadow: "none" }}>
+                <Box
+                  sx={{
+                    p: 1,
+                    m: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContext: "center",
+                  }}
+                >
+                  <Stack direction={"row"} justifyContent={"space-between"}>
+                    <Stack spacing={1} direction={"row"} alignItems={"center"}>
+                      <Image
+                        src={
+                          "https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/z3poxvxkgdzeyznvhfru"
+                        }
+                        placeholder="empty"
+                        height={25}
+                        width={25}
+                        style={{ borderRadius: "50%" }}
+                        className={"pointer"}
+                        alt={"store image"}
+                        onClick={() =>
+                          router.push(
+                            "/store/[slug]",
+                            `/store/${slug(owner?.name)}`
+                          )
+                        }
+                      />
+                      <Typography
+                        gutterBottom
+                        variant="subtitle1"
+                        component="div"
+                        fontSize={isMobile ? "12px" : "16px"}
+                        onClick={() =>
+                          router.push(
+                            "/store/[slug]",
+                            `/store/${slug(owner?.name)}`
+                          )
+                        }
+                      >
+                        {owner?.name}
+                      </Typography>
+                      {!isCurrentUserSeller() && (
+                        <Button
+                          variant="outlined"
+                          className="product__follow__btn"
+                          size={"small"}
+                          sx={{
+                            borderColor: "red",
+                            borderRadius: "45px",
+                            fontWeight: 500,
+                          }}
+                          onClick={handleFollowRequest}
+                        >
+                          {followLoading
+                            ? t("product.loading")
+                            : isFollowing
+                            ? t("product.unfollow")
+                            : t("product.follow")}
+                        </Button>
+                      )}
+                    </Stack>
+                    <Box>
+                      <ReportButton onClick={() => setOpenReportModal(true)}>
+                        <InfoRounded
+                          sx={{
+                            width: "20px",
+                            marginRight: "3px",
+                            color: "Red",
+                          }}
+                        />
+                        <Typography fontSize={10} color={"red"}>
+                          {t("product.report_seller")}
+                        </Typography>
+                      </ReportButton>
+                    </Box>
+                  </Stack>
+                  <Stack
+                    direction={"row"}
                     sx={{
-                      p: 1,
-                      m: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContext: "center",
+                      justifyContent: "space-between",
+                      mt: "10px",
+                      mb: "5px",
                     }}
                   >
-                    <Stack direction={"row"} justifyContent={"space-between"}>
-                      <Stack spacing={1} direction={"row"} alignItems={"center"}>
-                        <Image
-                          src={"https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/z3poxvxkgdzeyznvhfru"}
-                          placeholder="empty"
-                          height={25}
-                          width={25}
-                          style={{ borderRadius: "50%" }}
-                          className={"pointer"}
-                          alt={"store image"}
-                          onClick={() =>
-                            router.push(
-                              "/store/[slug]",
-                              `/store/${slug(owner?.name)}`
-                            )
-                          }
-                        />
-                        <Typography
-                          gutterBottom
-                          variant="subtitle1"
-                          component="div"
-                          fontSize={isMobile ? "12px" : "16px"}
-                          onClick={() =>
-                            router.push(
-                              "/store/[slug]",
-                              `/store/${slug(owner?.name)}`
-                            )
-                          }
-                        >
-                          {owner?.name}
-                        </Typography>
-                        {!isCurrentUserSeller() && (
-                          <Button
-                            variant="outlined"
-                            className="product__follow__btn"
-                            size={"small"}
-                            sx={{
-                              borderColor: "red",
-                              borderRadius: "45px",
-                              fontWeight: 500,
-                            }}
-                            onClick={handleFollowRequest}
-                          >
-                            {followLoading
-                              ? t("product.loading")
-                              : isFollowing
-                                ? t("product.unfollow")
-                                : t("product.follow")}
-                          </Button>
-                        )}
-                      </Stack>
-                      <Box>
-                        <ReportButton onClick={() => setOpenReportModal(true)}>
-                          <InfoRounded
-                            sx={{ width: "20px", marginRight: "3px", color: "Red" }}
-                          />
-                          <Typography fontSize={10} color={"red"}>
-                            {t("product.report_seller")}
-                          </Typography>
-                        </ReportButton>
-                      </Box>
-                    </Stack>
-                    <Stack
-                      direction={"row"}
-                      sx={{
-                        justifyContent: "space-between",
-                        mt: "10px",
-                        mb: "5px",
-                      }}
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      fontSize={"20px"}
+                      width={"70%"}
                     >
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="div"
-                        fontSize={"20px"}
-                        width={"70%"}
-                      >
-                        {dynamicTranslate(title)}
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        color="primary"
-                        component="div"
-                        minWidth="60px"
-                        fontSize={20}
-                      >
-                        {currencySymbol}&nbsp;&nbsp;
-                        {((price * currency(owner.currency)) / countryRate).toFixed(2)}
+                      {dynamicTranslate(title)}
+                    </Typography>
+                    <Typography
+                      gutterBottom
+                      color="primary"
+                      component="div"
+                      minWidth="60px"
+                      fontSize={20}
+                    >
+                      {currencySymbol}&nbsp;&nbsp;
+                      {(
+                        (price * currency(owner.currency)) /
+                        countryRate
+                      ).toFixed(2)}
+                    </Typography>
+                  </Stack>
+
+                  <Stack
+                    direction={"row"}
+                    sx={{
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Stack direction={"row"} spacing={1}>
+                      <Typography fontSize={12}>{products.quantity}</Typography>
+                      <Typography fontSize={12}>
+                        {t("product.left_in_stock")}
                       </Typography>
                     </Stack>
 
-                    <Stack
-                      direction={"row"}
-                      sx={{
-                        justifyContent: "space-between",
-                      }}
+                    <Button
+                      sx={{ textTransform: "capitalize" }}
+                      onClick={() =>
+                        dispatch(openCloseBuyerProtectionModal(true))
+                      }
                     >
-                      <Stack direction={"row"} spacing={1}>
-                        <Typography fontSize={12}>{products.quantity}</Typography>
+                      <Stack flexDirection={"row"} alignItems={"center"}>
+                        <VerifiedUser className={"icon-green"} />
+
                         <Typography fontSize={12}>
-                          {t("product.left_in_stock")}
+                          {t("product.buyer_protection")}
                         </Typography>
                       </Stack>
+                    </Button>
+                  </Stack>
 
-                      <Button sx={{ textTransform: "capitalize" }} onClick={() => dispatch(openCloseBuyerProtectionModal(true))}>
-                        <Stack flexDirection={"row"} alignItems={"center"}>
-                          <VerifiedUser className={"icon-green"} />
-
-                          <Typography fontSize={12}>
-                            {t("product.buyer_protection")}
-                          </Typography>
-                        </Stack>
-                      </Button>
-                    </Stack>
-
-                    {variants.length > 0 &&
-                      variants.map((x, index) => (
+                  {variants?.length > 0 &&
+                    variants?.map((x, index) => {
+                      return (
                         <Box key={index}>
-                          <Typography variant={"caption"}>{x.variant}</Typography>
+                          <Typography variant={"caption"}>
+                            {x.variant}
+                          </Typography>
                           <Grid container spacing={isMatches ? 3 : 1}>
-                            {x.options.map((y, id) => (
+                            {x?.options.map((y, id) => (
                               <Grid
                                 key={id}
                                 item
@@ -953,180 +981,138 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                                     borderRadius: "25px",
                                   }}
                                 >
+                                  {/* {dynamicTranslate(y.option)} */}
                                   {y.option}
                                 </Button>
                               </Grid>
                             ))}
                           </Grid>
                         </Box>
-                      ))}
+                      );
+                    })}
 
-                    <Stack
-                      direction={"row"}
-                      mt={2}
-                      alignItems={"center"}
-                      sx={{ justifyContent: "space-between" }}
+                  <Stack
+                    direction={"row"}
+                    mt={2}
+                    alignItems={"center"}
+                    sx={{ justifyContent: "space-between" }}
+                  >
+                    {/* create a dropdown to select quantity, a favorite icon and an add to cart button  */}
+                    <Box width={100}>
+                      <FormControl fullWidth>
+                        <Stack
+                          direction={"row"}
+                          spacing={2}
+                          alignItems={"center"}
+                        >
+                          <IconButton
+                            sx={{ padding: "0" }}
+                            onClick={() => {
+                              if (currentQuantity == 0) return;
+                              setCurrentQuantity(currentQuantity - 1);
+                            }}
+                          >
+                            <IndeterminateCheckBoxOutlined className="icon-green" />
+                          </IconButton>
+
+                          <Typography>{quantities[currentQuantity]}</Typography>
+
+                          <IconButton
+                            sx={{ padding: "0" }}
+                            onClick={() => {
+                              if (currentQuantity === quantities.length - 1)
+                                return;
+                              setCurrentQuantity(currentQuantity + 1);
+                            }}
+                          >
+                            <AddBoxOutlined className="icon-green" />
+                          </IconButton>
+                        </Stack>
+                      </FormControl>
+                    </Box>
+                    <Box>
+                      <sup>
+                        <Button
+                          onClick={() => setProductionConditionModal(true)}
+                          sx={{ textTransform: "capitalize" }}
+                        >
+                          <Stack flexDirection={"row"} alignItems={"center"}>
+                            <InfoOutlined className={"icon-green"} />
+                            <Typography fontSize={12}>
+                              {t(`FilterItems.${condition}`)}
+                            </Typography>
+                          </Stack>
+                        </Button>
+                      </sup>
+                    </Box>
+                  </Stack>
+                  <Stack spacing={2} sx={{ my: 2 }}>
+                    <Typography fontSize={15}>
+                      {t("product.description")}
+                    </Typography>
+
+                    <Typography
+                      className="product__decription__detial"
+                      fontSize={14}
                     >
-                      {/* create a dropdown to select quantity, a favorite icon and an add to cart button  */}
-                      <Box width={100}>
-                        <FormControl fullWidth>
-                          <Stack
-                            direction={"row"}
-                            spacing={2}
-                            alignItems={"center"}
-                          >
-                            <IconButton
-                              sx={{ padding: "0" }}
-                              onClick={() => {
-                                if (currentQuantity == 0) return;
-                                setCurrentQuantity(currentQuantity - 1);
-                              }}
-                            >
-                              <IndeterminateCheckBoxOutlined className="icon-green" />
-                            </IconButton>
-
-                            <Typography>{quantities[currentQuantity]}</Typography>
-
-                            <IconButton
-                              sx={{ padding: "0" }}
-                              onClick={() => {
-                                if (currentQuantity === quantities.length - 1)
-                                  return;
-                                setCurrentQuantity(currentQuantity + 1);
-                              }}
-                            >
-                              <AddBoxOutlined className="icon-green" />
-                            </IconButton>
-                          </Stack>
-                        </FormControl>
-                      </Box>
-                      <Box>
-                        <sup>
-                          <Button onClick={() => setProductionConditionModal(true)} sx={{ textTransform: "capitalize" }}>
-                            <Stack flexDirection={"row"} alignItems={"center"}>
-                              <InfoOutlined className={"icon-green"} />
-                              <Typography fontSize={12}>
-                                {t(`FilterItems.${condition}`)}
-                              </Typography>
-                            </Stack>
-                          </Button>
-                        </sup>
-                      </Box>
-                    </Stack>
-                    <Stack spacing={2} sx={{ my: 2 }}>
-                      <Typography fontSize={15}>
-                        {t("product.description")}
-                      </Typography>
-
-                      <Typography
-                        className="product__decription__detial"
-                        fontSize={14}
-                      >
-                        {dynamicTranslate(products.description)}
-                      </Typography>
-                    </Stack>
-                    <Stack spacing={2} sx={{ mb: 1 }}>
-                      {
-                        owner.disableChat ?
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignSelf: "flex-end",
-                              position: "fixed",
-                              bottom: isMobile ? "3.5rem" : "2rem",
-                              my: 2,
-                              cursor: "pointer",
-                              bgcolor: "gray",
-                              width: isMobile ? "3rem" : "4rem",
-                              height: isMobile ? "3rem" : "4rem",
-                              borderRadius: "50%",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10,
-                            }}
-                          >
-                            <SmsOutlined fontSize={isMobile ? "medium" : "large"} />
-                          </Box>
-                          :
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignSelf: "flex-end",
-                              position: "fixed",
-                              bottom: isMobile ? "3.5rem" : "2rem",
-                              my: 2,
-                              cursor: "pointer",
-                              bgcolor: "#00a859",
-                              width: isMobile ? "3rem" : "4rem",
-                              height: isMobile ? "3rem" : "4rem",
-                              borderRadius: "50%",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10,
-                            }}
-                            onClick={startChat}
-                          >
-                            {/* <Forum className={"pointer"} fontSize={"large"} /> */}
-                            <SmsOutlined fontSize={isMobile ? "medium" : "large"} />
-                          </Box>
-                      }
-                      {!isMobile && (
-                        <>
-                          {!owner.sellGlobal && (ownerCountryData.abb !== userCountry) &&
-                            <Box style={{ color: "red", display: "flex" }}><WarningIcon />{t("product.not_ship_region")}</Box>
-                          }
-
-                          {/* {ownerCountryData.abb}-----{userCountry} */}
-                          <Stack
-                            spacing={1}
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="center"
-                          >
-                            <Button
-                              disabled={isLoading || storeId === owner._id || (!owner.sellGlobal && (ownerCountryData.abb !== userCountry))}
-                              size={isMobile ? "small" : "large"}
-                              className={"product__action__btn"}
-                              endIcon={<ShoppingBagIcon />}
-                              variant="outlined"
-                              onClick={() => handleAddToCart()}
-                              sx={{ fontSize: 14, fontWeight: 500 }}
-                            >
-                              {t("product.btn_add_to_cart")}{" "}
-                              {isLoading && <CircularProgress />}
-                            </Button>
-                            <Button
-                              size={isMobile ? "small" : "large"}
-                              disabled={isLoading || storeId === owner._id || (!owner.sellGlobal && (ownerCountryData.abb !== userCountry))}
-                              variant="outlined"
-                              className={"product__action__btn"}
-                              endIcon={<FavoriteBorder />}
-                              onClick={() => addToWishlist()}
-                              sx={{ fontSize: 14, fontWeight: 500 }}
-                            >
-                              {t("product.btn_add_wishlist")}
-                            </Button>
-                          </Stack>
-                        </>
-                      )}
-                    </Stack>
-                    {isMobile && !isCartShowing && (
-                      <Paper
+                      {dynamicTranslate(products.description)}
+                    </Typography>
+                  </Stack>
+                  <Stack spacing={2} sx={{ mb: 1 }}>
+                    {owner.disableChat ? (
+                      <Box
                         sx={{
-                          mt: 1,
-                          padding: "1rem",
-                          borderRadius: "2px",
-                          p: { xs: 0, sm: 2 },
-                          boxShadow: "none",
+                          display: "flex",
+                          alignSelf: "flex-end",
                           position: "fixed",
-                          bottom: "70px",
-                          left: "1rem",
-                          width: "calc(100% - 6rem)",
+                          bottom: isMobile ? "3.5rem" : "2rem",
+                          my: 2,
+                          cursor: "pointer",
+                          bgcolor: "gray",
+                          width: isMobile ? "3rem" : "4rem",
+                          height: isMobile ? "3rem" : "4rem",
+                          borderRadius: "50%",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          zIndex: 10,
                         }}
                       >
-                        {!owner.sellGlobal && (ownerCountryData.abb !== userCountry) &&
-                          <Box style={{ color: "red", display: "flex" }}><WarningIcon />{t("product.not_ship_region")}</Box>
-                        }
+                        <SmsOutlined fontSize={isMobile ? "medium" : "large"} />
+                      </Box>
+                    ) : (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignSelf: "flex-end",
+                          position: "fixed",
+                          bottom: isMobile ? "3.5rem" : "2rem",
+                          my: 2,
+                          cursor: "pointer",
+                          bgcolor: "#00a859",
+                          width: isMobile ? "3rem" : "4rem",
+                          height: isMobile ? "3rem" : "4rem",
+                          borderRadius: "50%",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          zIndex: 10,
+                        }}
+                        onClick={startChat}
+                      >
+                        {/* <Forum className={"pointer"} fontSize={"large"} /> */}
+                        <SmsOutlined fontSize={isMobile ? "medium" : "large"} />
+                      </Box>
+                    )}
+                    {!isMobile && (
+                      <>
+                        {!owner.sellGlobal &&
+                          ownerCountryData.abb !== userCountry && (
+                            <Box style={{ color: "red", display: "flex" }}>
+                              <WarningIcon />
+                              {t("product.not_ship_region")}
+                            </Box>
+                          )}
+
+                        {/* {ownerCountryData.abb}-----{userCountry} */}
                         <Stack
                           spacing={1}
                           direction="row"
@@ -1134,98 +1120,192 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                           alignItems="center"
                         >
                           <Button
-                            disabled={isLoading || storeId === owner._id || (!owner.sellGlobal && (ownerCountryData.abb !== userCountry))}
-                            size={"large"}
-                            className={"product__action__btn"}
-                            endIcon={<ShoppingBagIcon sx={{ m: 0 }} />}
-                            variant="outlined"
-                            onClick={() => handleAddToCart()}
-                            sx={{ width: "50%", fontWeight: 500 }}
-                          >
-                            {isLoading && <CircularProgress />}
-                          </Button>
-                          <Button
-                            size={"large"}
-                            disabled={isLoading || storeId === owner._id || (!owner.sellGlobal && (ownerCountryData.abb !== userCountry))}
-                            variant="outlined"
-                            className={"product__action__btn"}
-                            endIcon={<FavoriteBorder sx={{ m: 0 }} />}
-                            onClick={() => addToWishlist()}
-                            sx={{ width: "50%", fontWeight: 500 }}
-                          />
-                        </Stack>
-                      </Paper>
-                    )}
-                    {isMobile && (
-                      <Paper
-                        sx={{
-                          mt: 1,
-                          padding: "1rem",
-                          borderRadius: "2px",
-                          p: { xs: 0, sm: 2 },
-                          boxShadow: "none",
-                        }}
-                      >
-                        {!owner.sellGlobal && (ownerCountryData.abb !== userCountry) &&
-                          <Box style={{ color: "red", display: "flex" }}><WarningIcon />{t("product.not_ship_region")}</Box>
-                        }
-                        <Stack
-                          spacing={1}
-                          direction="column"
-                          justifyContent="space-between"
-                          alignItems="center"
-                          ref={cartRef}
-                        >
-                          <Button
-                            disabled={isLoading || storeId === owner._id || (!owner.sellGlobal && (ownerCountryData.abb !== userCountry))}
+                            disabled={
+                              isLoading ||
+                              storeId === owner._id ||
+                              (!owner.sellGlobal &&
+                                ownerCountryData.abb !== userCountry)
+                            }
                             size={isMobile ? "small" : "large"}
                             className={"product__action__btn"}
                             endIcon={<ShoppingBagIcon />}
                             variant="outlined"
                             onClick={() => handleAddToCart()}
-                            sx={{ minWidth: "100%", fontWeight: 500 }}
+                            sx={{ fontSize: 14, fontWeight: 500 }}
                           >
                             {t("product.btn_add_to_cart")}{" "}
                             {isLoading && <CircularProgress />}
                           </Button>
                           <Button
                             size={isMobile ? "small" : "large"}
-                            disabled={isLoading || storeId === owner._id || (!owner.sellGlobal && (ownerCountryData.abb !== userCountry))}
+                            disabled={
+                              isLoading ||
+                              storeId === owner._id ||
+                              (!owner.sellGlobal &&
+                                ownerCountryData.abb !== userCountry)
+                            }
                             variant="outlined"
                             className={"product__action__btn"}
                             endIcon={<FavoriteBorder />}
                             onClick={() => addToWishlist()}
-                            sx={{ minWidth: "100%", fontWeight: 500 }}
+                            sx={{ fontSize: 14, fontWeight: 500 }}
                           >
                             {t("product.btn_add_wishlist")}
                           </Button>
                         </Stack>
-                      </Paper>
+                      </>
                     )}
-
-                    <SimpleAccordion care={instruction} shipping={dynamicTranslate(shippingDetail)} />
-                    {reviews.length > 0 && (
-                      <Box>
-                        <Product_reviews reviews={reviews.slice(0, 2)} />
-                        <Box
-                          display={"flex"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          pb={1}
-                          gap={1}
-                          onClick={() => setShowReviews(true)}
-                          sx={{ cursor: "pointer" }}
+                  </Stack>
+                  {isMobile && !isCartShowing && (
+                    <Paper
+                      sx={{
+                        mt: 1,
+                        padding: "1rem",
+                        borderRadius: "2px",
+                        p: { xs: 0, sm: 2 },
+                        boxShadow: "none",
+                        position: "fixed",
+                        bottom: "70px",
+                        left: "1rem",
+                        width: "calc(100% - 6rem)",
+                      }}
+                    >
+                      {!owner.sellGlobal &&
+                        ownerCountryData.abb !== userCountry && (
+                          <Box style={{ color: "red", display: "flex" }}>
+                            <WarningIcon />
+                            {t("product.not_ship_region")}
+                          </Box>
+                        )}
+                      <Stack
+                        spacing={1}
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Button
+                          disabled={
+                            isLoading ||
+                            storeId === owner._id ||
+                            (!owner.sellGlobal &&
+                              ownerCountryData.abb !== userCountry)
+                          }
+                          size={"large"}
+                          className={"product__action__btn"}
+                          endIcon={<ShoppingBagIcon sx={{ m: 0 }} />}
+                          variant="outlined"
+                          onClick={() => handleAddToCart()}
+                          sx={{ width: "50%", fontWeight: 500 }}
                         >
-                          <Grade sx={{ fontSize: 14 }} />
-                          <Typography fontSize={14}>Read More</Typography>
-                        </Box>
-                      </Box>
-                    )}
+                          {isLoading && <CircularProgress />}
+                        </Button>
+                        <Button
+                          size={"large"}
+                          disabled={
+                            isLoading ||
+                            storeId === owner._id ||
+                            (!owner.sellGlobal &&
+                              ownerCountryData.abb !== userCountry)
+                          }
+                          variant="outlined"
+                          className={"product__action__btn"}
+                          endIcon={<FavoriteBorder sx={{ m: 0 }} />}
+                          onClick={() => addToWishlist()}
+                          sx={{ width: "50%", fontWeight: 500 }}
+                        />
+                      </Stack>
+                    </Paper>
+                  )}
+                  {isMobile && (
+                    <Paper
+                      sx={{
+                        mt: 1,
+                        padding: "1rem",
+                        borderRadius: "2px",
+                        p: { xs: 0, sm: 2 },
+                        boxShadow: "none",
+                      }}
+                    >
+                      {!owner.sellGlobal &&
+                        ownerCountryData.abb !== userCountry && (
+                          <Box style={{ color: "red", display: "flex" }}>
+                            <WarningIcon />
+                            {t("product.not_ship_region")}
+                          </Box>
+                        )}
+                      <Stack
+                        spacing={1}
+                        direction="column"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        ref={cartRef}
+                      >
+                        <Button
+                          disabled={
+                            isLoading ||
+                            storeId === owner._id ||
+                            (!owner.sellGlobal &&
+                              ownerCountryData.abb !== userCountry)
+                          }
+                          size={isMobile ? "small" : "large"}
+                          className={"product__action__btn"}
+                          endIcon={<ShoppingBagIcon />}
+                          variant="outlined"
+                          onClick={() => handleAddToCart()}
+                          sx={{ minWidth: "100%", fontWeight: 500 }}
+                        >
+                          {t("product.btn_add_to_cart")}{" "}
+                          {isLoading && <CircularProgress />}
+                        </Button>
+                        <Button
+                          size={isMobile ? "small" : "large"}
+                          disabled={
+                            isLoading ||
+                            storeId === owner._id ||
+                            (!owner.sellGlobal &&
+                              ownerCountryData.abb !== userCountry)
+                          }
+                          variant="outlined"
+                          className={"product__action__btn"}
+                          endIcon={<FavoriteBorder />}
+                          onClick={() => addToWishlist()}
+                          sx={{ minWidth: "100%", fontWeight: 500 }}
+                        >
+                          {t("product.btn_add_wishlist")}
+                        </Button>
+                      </Stack>
+                    </Paper>
+                  )}
 
-                    <Box display={"flex"} flexDirection={"column"} gap={2}>
-                      <Box>
-                        {mProducts && mProducts.length > 0 && <>
-                          <Typography sx={{ mt: "20px" }}>{t("product.label_more_from_seller")}</Typography>
+                  <SimpleAccordion
+                    care={dynamicTranslate(instruction)}
+                    shipping={dynamicTranslate(shippingDetail)}
+                  />
+                  {reviews.length > 0 && (
+                    <Box>
+                      <Product_reviews reviews={reviews.slice(0, 2)} />
+                      <Box
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        pb={1}
+                        gap={1}
+                        onClick={() => setShowReviews(true)}
+                        sx={{ cursor: "pointer" }}
+                      >
+                        <Grade sx={{ fontSize: 14 }} />
+                        <Typography fontSize={14}>Read More</Typography>
+                      </Box>
+                    </Box>
+                  )}
+
+                  <Box display={"flex"} flexDirection={"column"} gap={2}>
+                    <Box>
+                      {mProducts && mProducts.length > 0 && (
+                        <>
+                          <Typography sx={{ mt: "20px" }}>
+                            {t("product.label_more_from_seller")}
+                          </Typography>
                           <Swiper
                             effect={"fade"}
                             breakpoints={{
@@ -1276,9 +1356,12 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                             })}
                           </Swiper>
                         </>
-                        }
-                        {sProducts && sProducts.length > 0 && <>
-                          <Typography sx={{ mt: "20px" }}>{t("product.label_similar_product")}</Typography>
+                      )}
+                      {sProducts && sProducts.length > 0 && (
+                        <>
+                          <Typography sx={{ mt: "20px" }}>
+                            {t("product.label_similar_product")}
+                          </Typography>
                           <Swiper
                             effect={"fade"}
                             breakpoints={{
@@ -1329,10 +1412,13 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                             })}
                           </Swiper>
                         </>
-                        }
+                      )}
 
-                        {aProducts && aProducts.length > 0 && <>
-                          <Typography sx={{ mt: "20px" }}>{t("product.label_ads_product")}</Typography>
+                      {aProducts && aProducts.length > 0 && (
+                        <>
+                          <Typography sx={{ mt: "20px" }}>
+                            {t("product.label_ads_product")}
+                          </Typography>
                           <Swiper
                             effect={"fade"}
                             breakpoints={{
@@ -1385,25 +1471,24 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                             })}
                           </Swiper>
                         </>
-                        }
-                      </Box>
+                      )}
                     </Box>
                   </Box>
-                </Card>
-              </Grid>
+                </Box>
+              </Card>
             </Grid>
-          )
-        }
-        {
-          showReviews && (
-            <Box bgcolor={"white"} mt={2}>
-              <Product_reviews reviews={reviews} showReviews />
-              <Box sx={{textAlign: "center", m: 1.5}}>
-                <Button variant="contained" onClick={() => setShowReviews(false)}>Go Back</Button>
-              </Box>
+          </Grid>
+        )}
+        {showReviews && (
+          <Box bgcolor={"white"} mt={2}>
+            <Product_reviews reviews={reviews} showReviews />
+            <Box sx={{ textAlign: "center", m: 1.5 }}>
+              <Button variant="contained" onClick={() => setShowReviews(false)}>
+                Go Back
+              </Button>
             </Box>
-          )
-        }
+          </Box>
+        )}
 
         <BuyerProtectionModal />
 
