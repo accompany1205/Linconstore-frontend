@@ -941,15 +941,16 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                     </Button>
                   </Stack>
 
-                  {variants?.length > 0 &&
-                    variants?.map((x, index) => {
+                  {variants.length > 0 &&
+                    variants.map((x, index) => {
+                      console.log('x=============>>>>>>>>>>>>', dynamicTranslate(x.variant))
                       return (
                         <Box key={index}>
                           <Typography variant={"caption"}>
                             {x.variant}
                           </Typography>
                           <Grid container spacing={isMatches ? 3 : 1}>
-                            {x?.options.map((y, id) => (
+                            {x.options?.map((y, id) => (
                               <Grid
                                 key={id}
                                 item
@@ -981,8 +982,7 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                                     borderRadius: "25px",
                                   }}
                                 >
-                                  {/* {dynamicTranslate(y.option)} */}
-                                  {y.option}
+                                  {dynamicTranslate(y.option)}
                                 </Button>
                               </Grid>
                             ))}
