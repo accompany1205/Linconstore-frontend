@@ -76,6 +76,7 @@ import BuyerProtectionModal from "../Utils/Seller/BuyerProtectionModal";
 import { useCurrency } from "../../hooks/useCurrency";
 import LanguageModalComponet from "../LanguageModal";
 import { countryCurrency } from "../../Helpers/Exchange";
+import { dynamicTranslate } from "../../utils/common";
 
 let firstStock = false;
 let secondStock = false;
@@ -878,7 +879,7 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                         fontSize={"20px"}
                         width={"70%"}
                       >
-                        {title}
+                        {dynamicTranslate(title)}
                       </Typography>
                       <Typography
                         gutterBottom
@@ -1022,7 +1023,7 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                         className="product__decription__detial"
                         fontSize={14}
                       >
-                        {products.description}
+                        {dynamicTranslate(products.description)}
                       </Typography>
                     </Stack>
                     <Stack spacing={2} sx={{ mb: 1 }}>
@@ -1203,7 +1204,7 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                       </Paper>
                     )}
 
-                    <SimpleAccordion care={instruction} shipping={shippingDetail} />
+                    <SimpleAccordion care={instruction} shipping={dynamicTranslate(shippingDetail)} />
                     {reviews.length > 0 && (
                       <Box>
                         <Product_reviews reviews={reviews.slice(0, 2)} />
