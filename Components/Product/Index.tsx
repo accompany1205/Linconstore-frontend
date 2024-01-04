@@ -943,7 +943,6 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
 
                   {variants.length > 0 &&
                     variants.map((x, index) => {
-                      console.log('x=============>>>>>>>>>>>>', dynamicTranslate(x.variant))
                       return (
                         <Box key={index}>
                           <Typography variant={"caption"}>
@@ -982,7 +981,7 @@ const Product: React.FC<IProducts> = ({ data, reviews }) => {
                                     borderRadius: "25px",
                                   }}
                                 >
-                                  {dynamicTranslate(y.option)}
+                                  {y.option}
                                 </Button>
                               </Grid>
                             ))}
