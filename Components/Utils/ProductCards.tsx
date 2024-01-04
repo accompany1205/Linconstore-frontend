@@ -19,6 +19,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { formatNumber } from "../../Helpers/utils";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "../../hooks/useCurrency";
+import { dynamicTranslate } from "../../utils/common";
 
 type TCurrency = {
   currency: {
@@ -167,7 +168,9 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
               variant="body1"
               component="span"
             >
-              {Truncate(name, 30)}
+              {
+                dynamicTranslate(Truncate(name, 30))
+              }
             </Typography>
           </Grid>
           {rating && (
