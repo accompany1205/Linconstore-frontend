@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export const dynamicTranslate = (text: any) => {
-  const [langCode, setLangCode] = useState("");
+  const [langCode, setLangCode] = useState("en");
   const [translatedText, setTranslatedText] = useState("");
 
   const apiKey =

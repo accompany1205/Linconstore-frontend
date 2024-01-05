@@ -1,10 +1,4 @@
-import {
-  Card,
-  Grid,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Card, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
@@ -19,7 +13,6 @@ import StarIcon from "@mui/icons-material/Star";
 import { formatNumber } from "../../Helpers/utils";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "../../hooks/useCurrency";
-import { dynamicTranslate } from "../../utils/common";
 
 type TCurrency = {
   currency: {
@@ -76,14 +69,17 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
   const [isSeller, setIsSeller] = useState<boolean>(false);
   function camelCase(str) {
     // Using replace method with regEx
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-      return index == 0 ? word.toLowerCase() : word.toUpperCase();
-    }).replace(/\s+/g, '');
+    return str
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index == 0 ? word.toLowerCase() : word.toUpperCase();
+      })
+      .replace(/\s+/g, "");
   }
-  const countryCode = "seller.verify.countryList." + camelCase(t(`${owner?.owner?.location.toLowerCase()}`));
+  const countryCode =
+    "seller.verify.countryList." +
+    camelCase(t(`${owner?.owner?.location.toLowerCase()}`));
 
   useEffect(() => {
-
     let interval;
     if (exchangeRate == null) {
       setInterval(() => {
@@ -138,12 +134,12 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
           variant="rectangular"
           width={150}
           height={120}
-          sx={{ bgcolor: 'grey.300', zIndex: 1 }}
+          sx={{ bgcolor: "grey.300", zIndex: 1 }}
           animation="wave"
           style={{
-            display: !loaded ? 'block' : 'none',
+            display: !loaded ? "block" : "none",
             zIndex: 2,
-            borderRadius: '18%'
+            borderRadius: "18%",
           }}
         />
         <Image
@@ -155,7 +151,7 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
           alt={"picture of product"}
           onLoad={() => setLoaded(true)}
           style={{
-            display: loaded ? 'block' : 'none',
+            display: loaded ? "block" : "none",
             zIndex: 2,
           }}
         />
@@ -168,9 +164,7 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
               variant="body1"
               component="span"
             >
-              {
-                dynamicTranslate(Truncate(name, 30))
-              }
+              {Truncate(name, 30)}
             </Typography>
           </Grid>
           {rating && (
@@ -190,8 +184,7 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
           {!isSeller && (
             <Grid item xs={4}>
               <Typography variant={"body2"}>
-                {t("product.ships_from")}{" "}
-                {t(`${countryCode}`)}
+                {t("product.ships_from")} {t(`${countryCode}`)}
               </Typography>
             </Grid>
           )}
@@ -201,11 +194,14 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
               gutterBottom
               variant="body2"
               component="span"
-            // sx={{ fontWeight: 600 }}
+              // sx={{ fontWeight: 600 }}
             >
               {currencySymbol}&nbsp;&nbsp;
               {calculateRate
-                ? ((Number(price) * currency(owner?.currency)) / countryRate).toFixed(2)
+                ? (
+                    (Number(price) * currency(owner?.currency)) /
+                    countryRate
+                  ).toFixed(2)
                 : Number(price).toFixed(2)}
             </Typography>
           </Grid>
