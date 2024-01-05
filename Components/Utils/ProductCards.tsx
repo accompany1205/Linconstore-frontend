@@ -13,7 +13,6 @@ import StarIcon from "@mui/icons-material/Star";
 import { formatNumber } from "../../Helpers/utils";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "../../hooks/useCurrency";
-import { dynamicTranslate } from "../../utils/common";
 
 type TCurrency = {
   currency: {
