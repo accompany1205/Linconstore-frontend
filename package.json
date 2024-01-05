@@ -53,6 +53,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-country-flag": "^3.1.0",
     "react-country-region-selector": "^3.6.1",
+    "react-detect-offline": "^2.4.5",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.2",
     "react-hook-form": "^7.30.0",
