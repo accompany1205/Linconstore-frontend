@@ -32,11 +32,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import { useCallback, useEffect, useState } from "react";
 import { categoryTags } from "../../Helpers/CategoryTags";
-import {
-  EditItemDefaultValue,
-  IProducts,
-  TCat,
-} from "../../Helpers/Types";
+import { EditItemDefaultValue, IProducts, TCat } from "../../Helpers/Types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
@@ -231,7 +227,7 @@ export default function EditModal() {
   const handleClose = () => {
     // setData(null)
     dispatch(handleCloseModal());
-  }
+  };
 
   const onSuccess = (data: any) => {
     handleClose();
@@ -242,9 +238,10 @@ export default function EditModal() {
     setRate(parseInt(rateExchange));
   }, []);
 
-  const onCategorySuccess = () => { };
+  const onCategorySuccess = () => {};
 
-  const { data: allCategories, isLoading: loading } = useGetAllCategories(onCategorySuccess);
+  const { data: allCategories, isLoading: loading } =
+    useGetAllCategories(onCategorySuccess);
 
   const category = watch("category");
   useEffect(() => {
@@ -253,7 +250,11 @@ export default function EditModal() {
       (categori) => categori.title === categori1
     );
     if (filterCategory?.length > 0) {
-      setSubCategories(filterCategory[0].subcategories.map(subcategory => `${categori1}.${subcategory}`));
+      setSubCategories(
+        filterCategory[0].subcategories.map(
+          (subcategory) => `${categori1}.${subcategory}`
+        )
+      );
     }
   }, [watch("category")]);
 
@@ -318,7 +319,6 @@ export default function EditModal() {
   const onStoreSuccess = (data: IStore) => {
     if (data != null) {
       setLocation(data.location);
-
     }
   };
   const acceptedFileTypes = {
@@ -363,25 +363,30 @@ export default function EditModal() {
       },
     ];
     const variantPlaceholder: any[] = [];
-    
+
     if (data.variants && data.variants.length > 0) {
       let variantLength = data.variants.length;
-    
-      data.variants.map(({ stock }, index: number) => {
-        stock.map((x: TVaraint, id: number) => {
-          const { option, variant } = x;
-          const price = Number(test[index].stock[id].price);
-          const newStock = test[index].stock[id].name;
-    
-          const newData: TVaraint = {
-            variant,
-            option,
-            price,
-            stock: newStock,
-          };
-    
-          variantPlaceholder.push(newData);
-        });
+
+      data?.variants?.forEach(({ stock }, index: number) => {
+        if (Array.isArray(stock)) {
+          stock.forEach((x: TVaraint, id: number) => {
+            const { option, variant } = x;
+            const price = Number(test[index].stock[id].price);
+            const newStock = test[index].stock[id].name;
+
+            const newData: TVaraint = {
+              variant,
+              option,
+              price,
+              stock: newStock,
+            };
+
+            variantPlaceholder.push(newData);
+          });
+        } else {
+          console.error("Stock is not an array:", stock);
+          // Handle the case where stock is not an array
+        }
       });
     }
 
@@ -428,9 +433,11 @@ export default function EditModal() {
     setIsLoading(true);
     try {
       const response = await axios.get(`${baseUrl}/product/${productId}`);
-      let res = response.data.product
-      const filterCategory = allCategories?.filter((categori) => categori._id === res.category);
-      res.category = filterCategory[0]?.title
+      let res = response.data.product;
+      const filterCategory = allCategories?.filter(
+        (categori) => categori._id === res.category
+      );
+      res.category = filterCategory[0]?.title;
       setData(res);
       setIsLoading(false);
     } catch (e) {
@@ -476,7 +483,7 @@ export default function EditModal() {
       // @ts-ignore
       const variantPlaceholder: IVariant[] = [];
       let varaintsLength = data?.variants?.length;
-      for (varaintsLength; varaintsLength--;) {
+      for (varaintsLength; varaintsLength--; ) {
         let length: number;
         if (
           data.variants[varaintsLength]?.variant ===
@@ -517,7 +524,7 @@ export default function EditModal() {
       setInitialSubCategory(data?.subcategory);
 
       if (data?.tags) {
-        setInitialTags(data?.tags)
+        setInitialTags(data?.tags);
       }
       // @ts-ignore
       handleRefetch(data?.category);
@@ -540,11 +547,12 @@ export default function EditModal() {
     }
   }, [initialCategory]);
 
-
   const getSelectedCategoryIndices = (categoryArray, selectedCategories) => {
-    const indexes = selectedCategories?.map(category => categoryArray.indexOf(category));
-    return indexes
-  }
+    const indexes = selectedCategories?.map((category) =>
+      categoryArray.indexOf(category)
+    );
+    return indexes;
+  };
 
   const handleGlobal = useCallback(() => {
     setIsGlobal((prevState) => !prevState);
@@ -736,7 +744,12 @@ export default function EditModal() {
               )}
             />
 
-            <Box display={"flex"} flexDirection={isMobile ? "column" : "row"} justifyContent={"space-between"} gap={2}>
+            <Box
+              display={"flex"}
+              flexDirection={isMobile ? "column" : "row"}
+              justifyContent={"space-between"}
+              gap={2}
+            >
               <Box width={"100%"}>
                 <Controller
                   control={control}
@@ -783,8 +796,8 @@ export default function EditModal() {
                       id="sub categories"
                       value={subcategory}
                       options={subCategories}
-                      getOptionLabel={(cat) => (cat && t(`subcategory.${cat}`))}
-                      noOptionsText={t('subcategory.no_options')}
+                      getOptionLabel={(cat) => cat && t(`subcategory.${cat}`)}
+                      noOptionsText={t("subcategory.no_options")}
                       renderInput={(params) => (
                         <TextField
                           sx={{ mt: 2, bgcolor: "white" }}
@@ -796,9 +809,7 @@ export default function EditModal() {
                           error={!!errors?.subcategory}
                           helperText={errors?.subcategory?.message}
                           label={t("edit_modal.sub_Category")}
-                          placeholder={t(
-                            "edit_modal.sub_category_placeholder"
-                          )}
+                          placeholder={t("edit_modal.sub_category_placeholder")}
                         />
                       )}
                       onChange={(e, data) => onChange(data)}
@@ -808,7 +819,12 @@ export default function EditModal() {
               </Box>
             </Box>
 
-            <Box display={"flex"} flexDirection={isMobile ? "column" : "row"} justifyContent={"space-between"} gap={2}>
+            <Box
+              display={"flex"}
+              flexDirection={isMobile ? "column" : "row"}
+              justifyContent={"space-between"}
+              gap={2}
+            >
               <Controller
                 control={control}
                 name="price"
@@ -831,17 +847,17 @@ export default function EditModal() {
                     }}
                     sx={{
                       bgcolor: "white",
-                      '& input[type=number]': {
-                        '-moz-appearance': 'textfield',
-                        '&::-webkit-outer-spin-button': {
-                          '-webkit-appearance': 'none',
+                      "& input[type=number]": {
+                        "-moz-appearance": "textfield",
+                        "&::-webkit-outer-spin-button": {
+                          "-webkit-appearance": "none",
                           margin: 0,
                         },
-                        '&::-webkit-inner-spin-button': {
-                          '-webkit-appearance': 'none',
+                        "&::-webkit-inner-spin-button": {
+                          "-webkit-appearance": "none",
                           margin: 0,
-                        }
-                      }
+                        },
+                      },
                     }}
                   />
                 )}
@@ -868,17 +884,17 @@ export default function EditModal() {
                     }}
                     sx={{
                       bgcolor: "white",
-                      '& input[type=number]': {
-                        '-moz-appearance': 'textfield',
-                        '&::-webkit-outer-spin-button': {
-                          '-webkit-appearance': 'none',
+                      "& input[type=number]": {
+                        "-moz-appearance": "textfield",
+                        "&::-webkit-outer-spin-button": {
+                          "-webkit-appearance": "none",
                           margin: 0,
                         },
-                        '&::-webkit-inner-spin-button': {
-                          '-webkit-appearance': 'none',
+                        "&::-webkit-inner-spin-button": {
+                          "-webkit-appearance": "none",
                           margin: 0,
-                        }
-                      }
+                        },
+                      },
                     }}
                   />
                 )}
@@ -918,7 +934,12 @@ export default function EditModal() {
               )}
             />
 
-            <Box display={"flex"} flexDirection={isMobile ? "column" : "row"} justifyContent={"space-between"} gap={2}>
+            <Box
+              display={"flex"}
+              flexDirection={isMobile ? "column" : "row"}
+              justifyContent={"space-between"}
+              gap={2}
+            >
               <Controller
                 control={control}
                 name="care"
@@ -1221,7 +1242,6 @@ export default function EditModal() {
                 </TableContainer>
               </Card>
             )}
-
 
             {!isGlobal && (
               <Card
