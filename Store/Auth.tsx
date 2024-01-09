@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface IUserInfo {
     email: string;
@@ -21,63 +21,65 @@ export interface IUserInfo {
     paypal: string;
     isClosed: boolean;
     sellerId: string;
+    language: string;
 }
 interface IAuth {
     isLoggedIn: boolean,
     token: string,
     adminToken: string,
-    userInfo: IUserInfo
+    userInfo: IUserInfo,
 }
-const initialState : IAuth = {
-           isLoggedIn : false,
-            token : '',
-            adminToken: '',
-            userInfo: {
-                email: '',
-                _id: '',
-                password: '',
-                firstName: '',
-                lastName: '',
-                role: '',
-                otp: 0,
-                phone: '',
-                customer_id: '',
-                isVerified: false,
-                plan: '',
-                // endDate: new Date(),
-                subId: '',
-                payId: '',
-                shipping: '',
-                orders: 0,
-                accId: '',
-                paypal: '',
-                isClosed: false,
-                sellerId: '',
-            },
+const initialState: IAuth = {
+    isLoggedIn: false,
+    token: '',
+    adminToken: '',
+    userInfo: {
+        email: '',
+        _id: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        role: '',
+        otp: 0,
+        phone: '',
+        customer_id: '',
+        isVerified: false,
+        plan: '',
+        // endDate: new Date(),
+        subId: '',
+        payId: '',
+        shipping: '',
+        orders: 0,
+        accId: '',
+        paypal: '',
+        isClosed: false,
+        sellerId: '',
+        language: '',
+    },
 }
 
 const auth = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        loginHandler(state: IAuth){
+        loginHandler(state: IAuth) {
             state.isLoggedIn = true
         },
-        logoutHandler(state : IAuth) {
+        logoutHandler(state: IAuth) {
             state.isLoggedIn = false
         },
-        insertTokenAndUserInfo(state: IAuth, action){
+        insertTokenAndUserInfo(state: IAuth, action) {
             state.token = action.payload.token
             state.userInfo = action.payload.userInfo
         },
         loginAdmin(state: IAuth, action) {
             state.adminToken = action.payload.token;
         },
-        deleteToken(state: IAuth){
+        deleteToken(state: IAuth) {
             state.token = ''
-        }
+        },
     }
 })
-export const {loginHandler, loginAdmin, insertTokenAndUserInfo, deleteToken,  logoutHandler} = auth.actions;
+export const { loginHandler, loginAdmin, insertTokenAndUserInfo, deleteToken, logoutHandler } = auth.actions;
 
 export default auth.reducer

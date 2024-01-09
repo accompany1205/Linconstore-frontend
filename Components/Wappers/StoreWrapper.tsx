@@ -30,6 +30,14 @@ const StoreWrapper: React.JSXElementConstructor<Holder> = ({
         <title>{title}</title>
         <meta name={description} content={content} />
         <link rel="icon" href="/favicon-store.ico" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={content} />
+        <meta property="og:url" content="https://linconstore.com/store/id" />
+        <meta property="og:image" content={image} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={description} />
+        <meta property="og:locale" content="en_US" />
       </Head>
       <NextSeo
         title={title}
