@@ -43,6 +43,7 @@ import axios from "axios";
 import {
   useGetAllCategories,
   useGetSellerInfo,
+  useGetUserStore,
   useUpdateProduct,
 } from "../../hooks/useDataFetch";
 import { uploadImages } from "../../Helpers/utils";
@@ -546,9 +547,16 @@ export default function EditModal() {
     return indexes
   }
 
-  const handleGlobal = useCallback(() => {
-    setIsGlobal((prevState) => !prevState);
-  }, []);
+  const onGetStoreSuccess = (data: Record<string, any>) => {
+    setIsGlobal(data?.sellGlobal)
+  };
+
+  const {
+    isSuccess,
+    data: storedata,
+  } = useGetUserStore(onGetStoreSuccess);
+
+  console.log('isGlobalisGlobalisGlobalisGlobalisGlobal', isGlobal)
 
   return (
     <Modal
@@ -957,7 +965,7 @@ export default function EditModal() {
                 )}
               />
             </Box>
-            {isGlobal && (
+            {/* {isGlobal && (
               <Card
                 elevation={1}
                 sx={{
@@ -980,8 +988,6 @@ export default function EditModal() {
                       <TableRow>
                         <TableCell align="left">Shipping </TableCell>
                         <TableCell align="left">Price</TableCell>
-                        {/*<TableCell align="left">USA & CANADA</TableCell>*/}
-                        {/*<TableCell align="left">EUROPE</TableCell>*/}
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -1220,10 +1226,10 @@ export default function EditModal() {
                   </Table>
                 </TableContainer>
               </Card>
-            )}
+            )} */}
 
 
-            {!isGlobal && (
+            {isGlobal && (
               <Card
                 elevation={1}
                 sx={{
