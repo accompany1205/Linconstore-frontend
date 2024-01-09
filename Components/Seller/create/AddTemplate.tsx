@@ -31,6 +31,7 @@ import TableBody from "@mui/material/TableBody";
 import {
   useCreateTemplate,
   useGetAllCategories,
+  useGetUserStore,
   useUpdateTemplate
 } from "../../../hooks/useDataFetch";
 import { useSelector } from "react-redux";
@@ -269,22 +270,63 @@ const AddTemplate: React.FC<ITemplate> = ({ location, setOpenTemplate, selectedT
         southAmerica,
       },
     ];
+    if(isGlobal){
+      const createProduct = {
+        ...data,
+        price: Number(price.toFixed(2)),
+        subcategory: data.subcategory,
+        shippingDetail: data.details,
+        shipping,
+        instruction: data.care,
+        continents,
+      };
+      mutate(createProduct);
+    }else{
+      const createProduct = {
+        ...data,
+        price: Number(price.toFixed(2)),
+        subcategory: data.subcategory,
+        shippingDetail: data.details,
+        instruction: data.care,
+        continents,
+      };
+      mutate(createProduct);
+    }
 
-    const createProduct = {
-      ...data,
-      price: Number(price.toFixed(2)),
-      subcategory: data.subcategory,
-      shippingDetail: data.details,
-      shipping,
-      instruction: data.care,
-      continents,
-    };
+    
     if (selectedTemp) {
+      const createProduct = {
+        ...data,
+        price: Number(price.toFixed(2)),
+        subcategory: data.subcategory,
+        shippingDetail: data.details,
+        shipping,
+        instruction: data.care,
+        continents,
+      };
       updateMutate({ id: selectedTemp._id, data: createProduct })
     } else {
+      const createProduct = {
+        ...data,
+        price: Number(price.toFixed(2)),
+        subcategory: data.subcategory,
+        shippingDetail: data.details,
+        shipping,
+        instruction: data.care,
+        continents,
+      };
       mutate(createProduct);
     }
   };
+  const onGetStoreSuccess = (data: Record<string, any>) => {
+    setIsGlobal(data?.sellGlobal)
+  };
+
+  const {
+    isSuccess,
+    data: storedata,
+    refetch: refetchUserStore,
+  } = useGetUserStore(onGetStoreSuccess);
 
   return (
     <>
@@ -554,7 +596,7 @@ const AddTemplate: React.FC<ITemplate> = ({ location, setOpenTemplate, selectedT
           )}
         />
 
-        {!isGlobal && (
+        {isGlobal && (
           <Card
             elevation={1}
             sx={{
