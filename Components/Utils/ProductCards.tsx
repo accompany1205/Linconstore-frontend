@@ -1,12 +1,7 @@
-import {
-  Card,
-  Grid,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Card, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 import Image from "next/image";
 import Badge from "@mui/material/Badge";
 import { useRouter } from "next/router";
@@ -63,6 +58,7 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
     (state: TCurrency) => state.currency.currency
   );
   const [rate, setRate] = useState<number>(1);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const currency = useCurrency();
   const [exchangeRate, setExchangeRate] =
     useState<Record<string, number>>(null);
@@ -73,14 +69,17 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
   const [isSeller, setIsSeller] = useState<boolean>(false);
   function camelCase(str) {
     // Using replace method with regEx
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-      return index == 0 ? word.toLowerCase() : word.toUpperCase();
-    }).replace(/\s+/g, '');
+    return str
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index == 0 ? word.toLowerCase() : word.toUpperCase();
+      })
+      .replace(/\s+/g, "");
   }
-  const countryCode = "seller.verify.countryList." + camelCase(t(`${owner?.owner?.location.toLowerCase()}`));
-  
+  const countryCode =
+    "seller.verify.countryList." +
+    camelCase(t(`${owner?.owner?.location.toLowerCase()}`));
+
   useEffect(() => {
-     
     let interval;
     if (exchangeRate == null) {
       setInterval(() => {
@@ -131,14 +130,30 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
           p: 1,
         }}
       >
+        <Skeleton
+          variant="rectangular"
+          width={150}
+          height={120}
+          sx={{ bgcolor: "grey.300", zIndex: 1 }}
+          animation="wave"
+          style={{
+            display: !loaded ? "block" : "none",
+            zIndex: 2,
+            borderRadius: "18%",
+          }}
+        />
         <Image
           className={"products_image"}
           height={120}
           width={150}
-          placeholder={"blur"}
-          blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+          placeholder={"empty"}
           src={image[0]}
           alt={"picture of product"}
+          onLoad={() => setLoaded(true)}
+          style={{
+            display: loaded ? "block" : "none",
+            zIndex: 2,
+          }}
         />
         <Grid container direction={"column"} spacing={0}>
           <Grid item xs={4}>
@@ -156,7 +171,7 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
             <Grid item xs={4}>
               <Stack direction={"row"}>
                 <StarIcon fontSize={"small"} sx={{ color: "#FFD700" }} />{" "}
-                <Typography style={{fontSize: "13px"}}>
+                <Typography style={{ fontSize: "13px" }}>
                   {formatNumber(rating.averageRating)} ({rating.ratings?.length}{" "}
                   {rating.ratings?.length > 1
                     ? t("product.reviews")
@@ -169,8 +184,7 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
           {!isSeller && (
             <Grid item xs={4}>
               <Typography variant={"body2"}>
-                {t("product.ships_from")}{" "}
-                {t(`${countryCode}`)}
+                {t("product.ships_from")} {t(`${countryCode}`)}
               </Typography>
             </Grid>
           )}
@@ -180,11 +194,14 @@ const ProductCards: React.JSXElementConstructor<IProductCards> = ({
               gutterBottom
               variant="body2"
               component="span"
-            // sx={{ fontWeight: 600 }}
+              // sx={{ fontWeight: 600 }}
             >
               {currencySymbol}&nbsp;&nbsp;
               {calculateRate
-                ? ((Number(price) * currency(owner?.currency)) / countryRate).toFixed(2)
+                ? (
+                    (Number(price) * currency(owner?.currency)) /
+                    countryRate
+                  ).toFixed(2)
                 : Number(price).toFixed(2)}
             </Typography>
           </Grid>

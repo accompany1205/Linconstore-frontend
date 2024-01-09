@@ -150,8 +150,7 @@ const RefundTable: React.FC<IRefundTable> = ({ refunds, refetch, setOpenChat }) 
                     width={50}
                     height={35}
                     style={{ marginTop: 30, width: "100%", height: "100%" }}
-                    placeholder="blur"
-                    blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                    placeholder="empty"
                     src={selectedRefund?.productId.photo[0]}
                     alt={"item image linconstore"}
                   />

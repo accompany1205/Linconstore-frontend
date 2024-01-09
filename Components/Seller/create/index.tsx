@@ -532,8 +532,7 @@ const PostItem: React.JSXElementConstructor<any> = () => {
                                 src={row.photo[0]}
                                 width={"63px"}
                                 height={"46px"}
-                                placeholder={"blur"}
-                                blurDataURL={row.photo[0]}
+                                placeholder="empty"
                                 alt={"icon of menue"}
                               />
                             </TableCell>
