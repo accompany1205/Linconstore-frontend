@@ -4,7 +4,7 @@ import { handleRateChange } from "../Helpers/Exchange";
 export const useCurrency = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [rate, setRate] = useState<number>(1);
-  const [excangeRate, setExchangeRate] = useState<Record<string, number>>(null);
+  const [exchangeRate, setExchangeRate] = useState<Record<string, number>>(null);
 
   const loadExchangeRate = async () => {
     const poundsResponse: number = await handleRateChange("Pounds");
@@ -49,10 +49,10 @@ export const useCurrency = () => {
   };
 
   const calculatedRate = (currency: string) => {
-    if (!excangeRate) {
+    if (!exchangeRate) {
       return 1;
     }
-    return excangeRate[`${currency}`];
+    return exchangeRate[`${currency}`];
   };
 
   useEffect(() => {

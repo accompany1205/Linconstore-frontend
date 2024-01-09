@@ -109,7 +109,7 @@ type TCart = {
   products: TProduct[];
 };
 const Checkout: React.FC = () => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currency = useCurrency();
   const isMobile: boolean = useMediaQuery("(max-width: 450px)");
   const isMatches: boolean = useMediaQuery("(max-width: 353px)");
@@ -118,6 +118,7 @@ const Checkout: React.FC = () => {
   const [isAddressUpdated, setIsAddressUpdated] = useState<boolean>(false);
   const [stepper, setStepper] = useState<boolean>(false);
   const router = useRouter();
+  const { pathname, asPath, query } = router;
   const isLoggedIn = useContext(ContextApi).isLoggedIn;
   const [rate, setRate] = useState<number>(1);
   const [shippingAddress, setShippingAddress] = useState<TContact>();
@@ -241,8 +242,11 @@ const Checkout: React.FC = () => {
   }, [billingAddress, isChecked]);
 
   const paymentSuccess = (data: any) => {
-    // alert(`data after payment-------------------------${data.url}`);
-    router.push(data.url);
+    alert(`data after payment-------------------------${data.url}`);
+    const language = localStorage.getItem("currentLanguage") ?? "en"
+    i18n.changeLanguage(language);
+    router.push(data.url, data.url, { locale: language })
+    // router.push(data.url);
   };
 
   const handleBilling = () => {
@@ -303,10 +307,10 @@ const Checkout: React.FC = () => {
             (value) => value.abb === userCountry
           );
           const sellerCountry = product.productId.owner.owner.location;
-         
+
           const sellerRate = currency(product.productId.owner.currency);
 
-          if (userCountryName.country.toLowerCase().replace(/\s+/g, '') === sellerCountry.toLowerCase()) {
+          if (userCountryName?.country?.toLowerCase().replace(/\s+/g, '') === sellerCountry.toLowerCase()) {
             localStorage.setItem("donesticShipping", (product.productId.owner.domesticShipping.standard).toString());
             shippingPlaceholder.push(
               (product.productId.owner.domesticShipping.standard * sellerRate) / countryRate
@@ -343,11 +347,11 @@ const Checkout: React.FC = () => {
     }, 700);
     return () => clearTimeout(timeOut);
   }, []);
- 
+
   const handlePayment = () => {
     localStorage.removeItem("addb");
     localStorage.removeItem("adds");
-    const address = shippingAddress ? shippingAddress._id : billingAddress._id;
+    const address = shippingAddress ? shippingAddress?._id : billingAddress?._id;
     localStorage.setItem("address", address);
     // Cookies.set("address", address, { expires: 7 });
     const shipping: number = value === "Standard" ? shippingCost : expressCost;
@@ -863,7 +867,7 @@ const Checkout: React.FC = () => {
                         type={"submit"}
                         fullWidth
                         onClick={handlePayment}
-                        disabled={isPaying || isDisabled}
+                        // disabled={isPaying || isDisabled}
                         variant={"contained"}
                         className={"buttonClass"}
                       >

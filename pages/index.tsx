@@ -175,6 +175,12 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon-store.ico" />
         <link rel="manifest" href="/manifest.json" />
+        <meta property="og:title" content="LinconStore" />
+        <meta property="og:description" content="Find wide range of products to cater for your everyday needs from around the world" />
+        <meta property="og:url" content="https://linconstore.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Linconstore | Buy and sell online with ease across Europe and North America" />
+        <meta property="og:locale" content="en_US" />
       </Head>
       <Nav />
       <NextSeo
