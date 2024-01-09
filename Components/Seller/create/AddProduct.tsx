@@ -42,6 +42,8 @@ import Dropzone, { Accept } from "react-dropzone";
 import {
   useCreateProduct,
   useGetAllCategories,
+  useGetUserStore,
+  useUpdateStore,
 } from "../../../hooks/useDataFetch";
 import { uploadImages } from "../../../Helpers/utils";
 import { useSelector } from "react-redux";
@@ -514,6 +516,7 @@ const AddProduct: React.FC<IProduct> = ({
           subcategory: data.subcategory,
           shippingDetail: data.details,
           instruction: data.care,
+          shipping,
           photo,
           isGlobal,
           continents,
@@ -527,7 +530,6 @@ const AddProduct: React.FC<IProduct> = ({
           subcategory: data.subcategory,
           shippingDetail: data.details,
           instruction: data.care,
-          shipping,
           photo,
           isGlobal,
           variants: variantPlaceholder,
@@ -565,9 +567,15 @@ const AddProduct: React.FC<IProduct> = ({
   const isMobile: boolean = useMediaQuery("(max-width: 600px)");
   const stock = watch("quantity");
 
-  const onGlobalChangeHandler = () => {
-    setIsGlobal((prevState) => !prevState);
+  const onGetStoreSuccess = (data: Record<string, any>) => {
+    setIsGlobal(data?.sellGlobal)
   };
+
+  const {
+    isSuccess,
+    data: storedata,
+    refetch: refetchUserStore,
+  } = useGetUserStore(onGetStoreSuccess);
 
   return (
     <>
@@ -988,7 +996,7 @@ const AddProduct: React.FC<IProduct> = ({
           )}
         />
 
-        {!isGlobal && (
+        {isGlobal && (
           <Card
             elevation={1}
             sx={{
