@@ -367,8 +367,8 @@ export default function EditModal() {
     if (data.variants && data.variants.length > 0) {
       let variantLength = data.variants.length;
     
-      test.map(({ stock }, index: number) => {
-        stock.map((x: any, id: number) => {
+      test.forEach(({ stock }, index: number) => {
+        stock.forEach((x: any, id: number) => {
           const price = Number(test[index].stock[id].price);
           const newStock = test[index].stock[id].name;
           const option= data.variants[index].option;
@@ -384,7 +384,6 @@ export default function EditModal() {
         });
       });
     }
-    console.log('variantPlaceholder', variantPlaceholder)
 
     const stockMatch = isVariantStockValid(variantPlaceholder, stockQuantity);
 
