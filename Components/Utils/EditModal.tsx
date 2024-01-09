@@ -370,10 +370,10 @@ export default function EditModal() {
     
       test.map(({ stock }, index: number) => {
         stock.map((x: any, id: number) => {
-          const { option, variant } = x;
           const price = Number(test[index].stock[index].price);
           const newStock = test[index].stock[index].name;
-    
+          const option= data.variants[index].option
+          const variant= data.variants[index].variant
           const newData: TVaraint = {
             variant,
             option,
