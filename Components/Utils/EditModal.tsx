@@ -365,15 +365,14 @@ export default function EditModal() {
     const variantPlaceholder: any[] = [];
     
     if (data.variants && data.variants.length > 0) {
-      console.log('dat+++++++++++++',test, data.variants)
       let variantLength = data.variants.length;
     
       test.map(({ stock }, index: number) => {
         stock.map((x: any, id: number) => {
-          const price = Number(test[index].stock[index].price);
-          const newStock = test[index].stock[index].name;
-          const option= data.variants[index].option
-          const variant= data.variants[index].variant
+          const price = Number(test[index].stock[id].price);
+          const newStock = test[index].stock[id].name;
+          const option= data.variants[index].option;
+          const variant= data.variants[index].variant;
           const newData: TVaraint = {
             variant,
             option,
