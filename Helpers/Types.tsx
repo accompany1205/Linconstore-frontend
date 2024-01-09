@@ -331,6 +331,8 @@ export type IRound = {
 export interface IVariants {
   option: string;
   variant: string;
+  stock:number;
+  price:number;
   _id: string;
 }
 type TRatings = {

@@ -365,24 +365,27 @@ export default function EditModal() {
     const variantPlaceholder: any[] = [];
     
     if (data.variants && data.variants.length > 0) {
+      console.log('dat+++++++++++++',test, data.variants)
       let variantLength = data.variants.length;
     
-      data.variants.map((x:any, index: number) => {
+      test.map(({ stock }, index: number) => {
+        stock.map((x: any, id: number) => {
           const { option, variant } = x;
-          const price = parseInt(x.price);
-          const newStock = x.stock;
-          console.log('before', x.price,x.stock);
+          const price = Number(test[index].stock[index].price);
+          const newStock = test[index].stock[index].name;
     
           const newData: TVaraint = {
             variant,
             option,
             price,
-            stock:newStock,
+            stock: newStock,
           };
+    
           variantPlaceholder.push(newData);
-          console.log('after',variantPlaceholder          );
+        });
       });
     }
+    console.log('variantPlaceholder', variantPlaceholder)
 
     const stockMatch = isVariantStockValid(variantPlaceholder, stockQuantity);
 
