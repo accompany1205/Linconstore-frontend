@@ -228,7 +228,7 @@ const AddProduct: React.FC<IProduct> = ({
       care: "",
       standard: 0,
       express: 0,
-      file: undefined,
+      file: [],
       asia: 0,
       africa: 0,
       europe: 0,
@@ -275,7 +275,7 @@ const AddProduct: React.FC<IProduct> = ({
     }
   }, [selectedTemp]);
 
-  const onDrop = useCallback((acceptedFiles: any[]) => {
+  const onDrop = useCallback((acceptedFiles: any) => {
     if (acceptedFiles?.length) {
       setFiles((previousFiles) => [
         ...previousFiles,
@@ -284,6 +284,7 @@ const AddProduct: React.FC<IProduct> = ({
         ),
       ]);
     }
+    setValue("file",acceptedFiles)
   }, []);
 
   const removeFile = (name: any) => {
@@ -295,6 +296,7 @@ const AddProduct: React.FC<IProduct> = ({
   const category = watch("category");
   const tag = watch("tags");
   const subcategory = watch("subcategory");
+ const file =watch("file")
 
   useEffect(() => {
     const subTags = categoryTags.find((x) => x.key === category);
