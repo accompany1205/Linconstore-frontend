@@ -672,6 +672,7 @@ const AddProduct: React.FC<IProduct> = ({
                                     width: "100%",
                                     height: "200px",
                                     mb: 2,
+                                    borderRadius:2
                                   }}
                                 />
                               </Grid>
