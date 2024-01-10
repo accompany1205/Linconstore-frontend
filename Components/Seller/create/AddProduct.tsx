@@ -38,7 +38,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import Dropzone, { Accept, useDropzone } from "react-dropzone";
+import Dropzone, { Accept } from "react-dropzone";
 import {
   useCreateProduct,
   useGetAllCategories,
@@ -472,7 +472,6 @@ const AddProduct: React.FC<IProduct> = ({
   //submit the add product form
   const onSubmit: SubmitHandler<postItemDefaultValue> = async (data) => {
     setIsUploading(true);
-    console.log("data===========================>>>>>>>>>>>>>>>>", data.file);
     const photo = await uploadImages(data.file);
     setIsUploading(false);
     const {

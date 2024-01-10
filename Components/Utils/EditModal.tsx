@@ -556,8 +556,6 @@ export default function EditModal() {
 
   const { isSuccess, data: storedata } = useGetUserStore(onGetStoreSuccess);
 
-  console.log("isGlobalisGlobalisGlobalisGlobalisGlobal", isGlobal);
-
   return (
     <Modal
       open={open}
@@ -656,6 +654,29 @@ export default function EditModal() {
                             {/*</p>*/}
                             <Grid container>
                               {acceptedFiles.length > 0 &&
+                                acceptedFiles.map((file, index) => {
+                                  return (
+                                    <Grid
+                                      item
+                                      xs={12}
+                                      sm={6}
+                                      md={4}
+                                      key={index}
+                                    >
+                                      <Avatar
+                                        variant={"square"}
+                                        src={URL.createObjectURL(file)}
+                                        alt="photo preview"
+                                        sx={{
+                                          width: "200px",
+                                          height: "200px",
+                                          mb: 2,
+                                        }}
+                                      />
+                                    </Grid>
+                                  );
+                                })}
+                              {/* {acceptedFiles.length > 0 &&
                                 acceptedFiles.map((file, index) => (
                                   <Grid item xs={12} sm={6} md={4} key={index}>
                                     <Avatar
@@ -669,7 +690,7 @@ export default function EditModal() {
                                       }}
                                     />
                                   </Grid>
-                                ))}
+                                ))} */}
                             </Grid>
                             {acceptedFiles.length === 0 && (
                               <Avatar
