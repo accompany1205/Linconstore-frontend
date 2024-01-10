@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -38,7 +38,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import Dropzone, { Accept } from "react-dropzone";
+import Dropzone, { Accept, useDropzone } from "react-dropzone";
 import {
   useCreateProduct,
   useGetAllCategories,
@@ -182,6 +182,7 @@ const AddProduct: React.FC<IProduct> = ({
       .typeError(t("seller.post.add_product.must_be_a_number"))
       .required(t("seller.post.add_product.require_msg")),
   });
+
   const [categories, setCategories] = useState<string[]>([]);
   const onCategorySuccess = () => {};
   const rateDispatch: number = useSelector(
@@ -192,6 +193,7 @@ const AddProduct: React.FC<IProduct> = ({
   );
   const { data, isLoading: loading } = useGetAllCategories(onCategorySuccess);
   const [subCategories, setSubCategories] = useState([]);
+  const [files, setFiles] = useState([]);
 
   const [tags, setTags] = useState<string[]>([]);
 
@@ -273,6 +275,23 @@ const AddProduct: React.FC<IProduct> = ({
     }
   }, [selectedTemp]);
 
+  const onDrop = useCallback((acceptedFiles: any[]) => {
+    if (acceptedFiles?.length) {
+      setFiles((previousFiles) => [
+        ...previousFiles,
+        ...acceptedFiles.map((file: Blob | MediaSource) =>
+          Object.assign(file, { preview: URL.createObjectURL(file) })
+        ),
+      ]);
+    }
+  }, []);
+
+  const removeFile = (name: any) => {
+    const updatedFiles = files.filter((file) => file.name !== name);
+    setFiles(updatedFiles);
+    setValue("file", updatedFiles, { shouldValidate: true });
+  };
+
   const category = watch("category");
   const tag = watch("tags");
   const subcategory = watch("subcategory");
@@ -343,7 +362,7 @@ const AddProduct: React.FC<IProduct> = ({
   //
   const price = watch("price");
 
-  const validateProductStock = (index, stock) => {
+  const validateProductStock = (index: number, stock: number) => {
     const quantity = watch(`test.${index}.stock`)?.reduce(
       (index, { name }) => index + Number.parseInt(name as unknown as string),
       0
@@ -391,12 +410,12 @@ const AddProduct: React.FC<IProduct> = ({
   useEffect(() => {
     const category = watch("category");
     const filterCategory = data?.filter(
-      (categori) => categori.title === category
+      (categori: { title: string }) => categori.title === category
     );
     if (filterCategory?.length > 0) {
       setSubCategories(
         filterCategory[0].subcategories.map(
-          (subcategory) => `${category}.${subcategory}`
+          (subcategory: any) => `${category}.${subcategory}`
         )
       );
     }
@@ -423,20 +442,28 @@ const AddProduct: React.FC<IProduct> = ({
    matched the product quantity
   */
 
-  const isVariantStockValid = (variantPlaceholder, quantity) => {
-    const result = variantPlaceholder.reduce((acc, curr) => {
-      const existingVariant = acc.find((item) => item.variant === curr.variant);
-      if (existingVariant) {
-        existingVariant.stock += curr.stock;
-      } else {
-        acc.push({ variant: curr.variant, stock: curr.stock });
-      }
-      return acc;
-    }, []);
+  const isVariantStockValid = (variantPlaceholder: any[], quantity: number) => {
+    const result = variantPlaceholder.reduce(
+      (
+        acc: { variant: any; stock: any }[],
+        curr: { variant: any; stock: any }
+      ) => {
+        const existingVariant = acc.find(
+          (item: { variant: any }) => item.variant === curr.variant
+        );
+        if (existingVariant) {
+          existingVariant.stock += curr.stock;
+        } else {
+          acc.push({ variant: curr.variant, stock: curr.stock });
+        }
+        return acc;
+      },
+      []
+    );
 
     // Filter the items where the result variant has stock less than 5
     const resultLessThanQuantity = result.filter(
-      (item) => item.stock < quantity
+      (item: { stock: number }) => item.stock < quantity
     );
 
     return resultLessThanQuantity;
@@ -445,6 +472,7 @@ const AddProduct: React.FC<IProduct> = ({
   //submit the add product form
   const onSubmit: SubmitHandler<postItemDefaultValue> = async (data) => {
     setIsUploading(true);
+    console.log("data===========================>>>>>>>>>>>>>>>>", data.file);
     const photo = await uploadImages(data.file);
     setIsUploading(false);
     const {
@@ -624,11 +652,7 @@ const AddProduct: React.FC<IProduct> = ({
                 <Dropzone
                   noClick
                   accept={acceptedFileTypes as unknown as Accept}
-                  onDrop={(acceptedFiles) => {
-                    setValue("file", acceptedFiles as unknown as FileList[], {
-                      shouldValidate: true,
-                    });
-                  }}
+                  onDrop={onDrop}
                 >
                   {({
                     getRootProps,
@@ -660,25 +684,46 @@ const AddProduct: React.FC<IProduct> = ({
                         {/*    </button>{' '}*/}
                         {/*    or drag and drop*/}
                         {/*</p>*/}
-                        <Grid container>
-                          {acceptedFiles.length > 0 &&
-                            acceptedFiles.map((file, index) => (
-                              <Grid item xs={12} sm={6} md={4} key={index} sx={{m:1}}>
+                        <Grid container spacing={2}>
+                          {files.map((file, index) => (
+                            <Grid
+                              item
+                              xs={12}
+                              sm={files.length === 1 ? 12 : 6}
+                              md={files.length === 1 ? 12 : 4}
+                              key={index}
+                            >
+                              <Box sx={{ width: "100%", position: "relative" }}>
                                 <Avatar
                                   variant={"square"}
                                   src={URL.createObjectURL(file)}
                                   alt="photo preview"
                                   sx={{
                                     width: "100%",
-                                    height: "200px",
+                                    height: "30vh",
                                     mb: 2,
-                                    borderRadius:2
+                                    borderRadius: 2,
                                   }}
                                 />
-                              </Grid>
-                            ))}
+                                <Button
+                                  type="button"
+                                  sx={{
+                                    position: "absolute",
+                                    top: 5,
+                                    right: 5,
+                                    color: "red",
+                                    background: "white",
+                                    borderRadius: 5,
+                                  }}
+                                  onClick={() => removeFile(file.name)}
+                                >
+                                  <Delete />
+                                </Button>
+                              </Box>
+                            </Grid>
+                          ))}
                         </Grid>
-                        {acceptedFiles.length === 0 && (
+                        {files.length === 0 && (
                           <Avatar
                             variant={"square"}
                             src={
