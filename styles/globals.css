@@ -277,7 +277,7 @@ a {
 
 .nav {
   background: #ffffff !important;
-  z-index: 10 !important;
+  z-index: 99 !important;
   height: 50px;
 }
 
