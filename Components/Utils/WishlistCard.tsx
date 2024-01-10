@@ -370,8 +370,7 @@ const WishlistCard: React.FC<IWish> = ({
                     width={500}
                     height={500}
                     objectFit="cover"
-                    placeholder="blur"
-                    blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                    placeholder="empty"
                     src={product.productId.photo[0]}
                     alt={"image of product"}
                   />

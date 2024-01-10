@@ -27,8 +27,10 @@ import { snackBarOpen } from "../../Store/Utils";
 import Image from "next/image";
 import { RootState } from "../../Store/Index";
 import { formatNumber } from "../../Helpers/utils";
+import StoreFrontTopItem from "./components/storefront/TopItem";
 import slug from "slug";
 import { useEffect } from "react";
+import StoreFrontRecentOrder from "./components/storefront/RecentOrder";
 
 type TProducts = {
   discount: number;
@@ -273,80 +275,8 @@ const Store: React.JSXElementConstructor<any> = () => {
                       {topProducts.length > 0 &&
                         topProducts.map((product, index) => {
                           return (<>
-                            {currency && <div>
-
-                              <Box
-                                display={"flex"}
-                                key={index}
-                                p={1}
-                                gap={2}
-                                alignItems={"center"}
-                                sx={{
-                                  cursor: "pointer",
-                                }}
-                                onClick={() =>
-                                  router.push(
-                                    "/product/[slug]",
-                                    `/product/${slug(product.title)}-${product._id}`
-                                  )
-                                }
-                              >
-                                <Image
-                                  width={55}
-                                  height={55}
-                                  style={{
-                                    width: "100%",
-                                    height: "100%",
-                                  }}
-                                  placeholder="blur"
-                                  blurDataURL={
-                                    "https://via.placeholder.com/300.png/09f/fff"
-                                  }
-                                  src={product?.photo[0]}
-                                  alt={"image of review"}
-                                />
-
-                                <Box
-                                  display={"flex"}
-                                  justifyContent={"space-between"}
-                                  width={"100%"}
-                                >
-                                  <Box display={"flex"} flexDirection={"column"}>
-                                    <Typography
-                                      sx={{
-                                        whiteSpace: "nowrap",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        width: isMobile ? "100px" : "200px",
-                                        fontSize: 14,
-                                      }}
-                                    >
-                                      {product.title}
-                                    </Typography>
-                                    <Typography color={"primary"}>
-                                      {currency} {product.price}
-                                    </Typography>
-                                  </Box>
-
-                                  {product?.ratingId?.ratings.length > 0 && (
-                                    <Box display={"flex"} alignItems={"center"} gap={1}>
-                                      <Star
-                                        fontSize={"small"}
-                                        sx={{ color: "#FFD700" }}
-                                      />{" "}
-                                      <Typography variant={"body1"}>
-                                        {formatNumber(product?.ratingId?.averageRating)} (
-                                        {product?.ratingId?.ratings.length}{" "}
-                                        {product?.ratingId?.ratings.length > 1
-                                          ? t("product.reviews")
-                                          : t("product.review")}
-                                        )
-                                      </Typography>
-                                    </Box>
-                                  )}
-                                </Box>
-                              </Box>
-                            </div>
+                            {currency &&
+                              <StoreFrontTopItem key={index} product={product} currency={currency} />
                             }
                           </>);
                         })}
@@ -383,68 +313,7 @@ const Store: React.JSXElementConstructor<any> = () => {
                           return (
                             <>
                               {currency && <div>
-                                <Box
-                                  display={"flex"}
-                                  key={index}
-                                  p={1}
-                                  gap={2}
-                                  alignItems={"center"}
-                                  sx={{
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  <Image
-                                    width={55}
-                                    height={55}
-                                    style={{
-                                      width: "100%",
-                                      height: "100%",
-                                    }}
-                                    placeholder="blur"
-                                    blurDataURL={
-                                      "https://via.placeholder.com/300.png/09f/fff"
-                                    }
-                                    src={order.productId?.photo[0]}
-                                    alt={"image of review"}
-                                  />
-
-                                  <Box display={"flex"} justifyContent={"space-between"} width={"100%"}>
-                                    <Box display={"flex"} flexDirection={"column"} width={!isMobile ? "100px" : "50px"}>
-                                      <Typography
-                                        sx={{
-                                          whiteSpace: 'nowrap',
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          width: isMobile ? "50px" : "150px",
-                                          fontSize: 14,
-                                        }}
-                                      >
-                                        {order.name}
-                                      </Typography>
-                                      <Typography color={"primary"}>
-                                        {currency} {order.price}
-                                      </Typography>
-                                    </Box>
-
-                                    <Box>
-                                      <Typography
-                                        sx={{
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                          width: isMobile ? "100px" : "150px",
-                                          fontSize: 14
-                                        }}
-                                      >
-                                        {order.productId.subcategory}
-                                      </Typography>
-                                    </Box>
-
-                                    <Box>
-                                      <Typography fontSize={14}>{order.quantity}</Typography>
-                                    </Box>
-                                  </Box>
-                                </Box>
+                                <StoreFrontRecentOrder key={index} order={order} currency={currency} />
                               </div>}
                             </>
 

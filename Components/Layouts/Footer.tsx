@@ -1,3 +1,4 @@
+import React, { useContext, useEffect, useState } from "react";
 import {
   CssBaseline,
   Grid,
@@ -17,8 +18,8 @@ import {
   Twitter,
 } from "@mui/icons-material";
 import { Box, Container } from "@mui/system";
+import Skeleton from "@mui/material/Skeleton";
 import Link from "next/link";
-import React, { useContext, useEffect } from "react";
 import Image from "next/image";
 import ContextApi from "../../Store/context/ContextApi";
 import { useRouter } from "next/router";
@@ -47,6 +48,8 @@ const theme = createTheme({
   },
 });
 const Footer: React.FC = () => {
+  const [loaded, setLoaded] = useState<boolean>(false);
+
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isMobileFooter: boolean = useMediaQuery("(max-width : 400px)");
   const isLoggedIn = useContext(ContextApi).isLoggedIn;
@@ -89,15 +92,30 @@ const Footer: React.FC = () => {
         >
           <Grid container sx={{ display: "flex", flexDirection: "row" }}>
             <Grid item xs={isMobile ? 12 : 7} sm={6} md={5}>
+              <Skeleton
+                variant="rectangular"
+                width={isMobile ? 100 : 120}
+                height={isMobile ? 75 : 95}
+                sx={{ bgcolor: 'grey.300', zIndex: 1 }}
+                animation="wave"
+                style={{
+                  display: !loaded ? 'block' : 'none',
+                  zIndex: 1,
+                }}
+              />
               <Image
                 src="https://res.cloudinary.com/linconstore-test/image/upload/f_auto,q_auto/v1/web-asset_2023-11-07_17_35/nyd8rxgn7j10epiozghq"
-                placeholder="blur"
-                blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                placeholder="empty"
                 className="footer_logo"
                 priority={true}
                 width={isMobile ? 100 : 120}
                 height={isMobile ? 75 : 95}
                 alt={"pictures on footer"}
+                onLoad={() => setLoaded(true)}
+                style={{
+                  display: loaded ? 'block' : 'none',
+                  zIndex: 2,
+                }}
               />
 
               <Stack spacing={1}>
@@ -167,7 +185,7 @@ const Footer: React.FC = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Stack spacing={1} sx={{mb: isMobile?3:1, mt: isMobile?2:1}}>
+              <Stack spacing={1} sx={{ mb: isMobile ? 3 : 1, mt: isMobile ? 2 : 1 }}>
                 <Typography variant="h6" sx={{ color: "#101010", fontSize: 16 }}>
                   {t("footer.CompanyTitle")}
                 </Typography>
@@ -182,7 +200,7 @@ const Footer: React.FC = () => {
                   </Link>
                 </Typography>
               </Stack>
-              <Stack spacing={1} sx={{mb: isMobile?3:1}}>
+              <Stack spacing={1} sx={{ mb: isMobile ? 3 : 1 }}>
                 <Typography variant="h6" sx={{ color: "#101010", fontSize: 16 }}>
                   {t("footer.OpportunityTitle")}
                 </Typography>
@@ -204,7 +222,7 @@ const Footer: React.FC = () => {
                   {t("footer.Sell")}
                 </Typography>
               </Stack>
-              <Stack spacing={1} sx={{mb: isMobile?3:1}}>
+              <Stack spacing={1} sx={{ mb: isMobile ? 3 : 1 }}>
                 <Typography variant="h6" sx={{ color: "#101010", fontSize: 16 }}>
                   {t("footer.SupportHub")}
                 </Typography>
@@ -224,7 +242,7 @@ const Footer: React.FC = () => {
                   </Link>
                 </Typography>
               </Stack>
-              <Stack spacing={1}  sx={{mb: isMobile?2:1}}>
+              <Stack spacing={1} sx={{ mb: isMobile ? 2 : 1 }}>
                 <Typography variant="h6" sx={{ color: "#101010", fontSize: 16 }}>
                   {t("footer.Policies")}
                 </Typography>

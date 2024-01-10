@@ -32,8 +32,7 @@ const Invoice = ({ order, user }) => {
                         width={isMobile ? 30 : 100}
                         height={isMobile ? 30 : 100}
                         style={{ marginTop: isMobile ? 0 : 30, width: "100%", height: "100%", objectFit:"contain" }}
-                        placeholder="blur"
-                        blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                        placeholder="empty"
                         src={order.productId.owner.logo}
                         alt={"linconstore logo"}
                     />
@@ -78,8 +77,7 @@ const Invoice = ({ order, user }) => {
                                         width={isMobile ? 20 : 50}
                                         height={isMobile ? 20 : 50}
                                         style={{ marginTop: isMobile ? 0 : 30, width: "100%", height: "100%", objectFit:"contain" }}
-                                        placeholder="blur"
-                                        blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                                        placeholder="empty"
                                         src={order.productId.photo[0]}
                                         alt={"Product Image"}
                                     />

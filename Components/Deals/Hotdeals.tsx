@@ -16,6 +16,7 @@ const Deals: React.FC = () => {
   const isMobile: boolean = useMediaQuery("(max-width: 300px)");
   const { t } = useTranslation();
   const onSuccess = (data: TProducts[]) => {
+    console.log({ data });
     setProducts(data);
   };
   const { isLoading, isFetched } = useGetHotDeals(onSuccess);

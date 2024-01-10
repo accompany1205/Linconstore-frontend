@@ -229,8 +229,7 @@ const ForumRoom: React.FC = () => {
                                                     height={27}
                                                     width={30}
                                                     src={imageData?.secure_url}
-                                                    placeholder="blur"
-                                                    blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                                                    placeholder="empty"
                                                     alt="product-icon"
                                                     style={{ borderRadius: '3px' }}
                                                 />

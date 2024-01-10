@@ -312,10 +312,7 @@ const Chat: React.FC = () => {
                                                             width: "100%",
                                                             height: "100%",
                                                         }}
-                                                        placeholder="blur"
-                                                        blurDataURL={
-                                                            "https://via.placeholder.com/300.png/09f/fff"
-                                                        }
+                                                        placeholder="empty"
                                                         src={message?.image}
                                                         alt={"product image"}
                                                     />
@@ -349,10 +346,7 @@ const Chat: React.FC = () => {
                                                             width: "100%",
                                                             height: "100%",
                                                         }}
-                                                        placeholder="blur"
-                                                        blurDataURL={
-                                                            "https://via.placeholder.com/300.png/09f/fff"
-                                                        }
+                                                        placeholder="empty"
                                                         src={message?.image}
                                                         alt={"product image"}
                                                     />
@@ -460,8 +454,7 @@ const Chat: React.FC = () => {
                                         height={27}
                                         width={30}
                                         src={imageData?.secure_url}
-                                        placeholder="blur"
-                                        blurDataURL={"https://via.placeholder.com/300.png/09f/fff"}
+                                        placeholder="empty"
                                         alt="product-icon"
                                         style={{ borderRadius: '3px' }}
                                     />
