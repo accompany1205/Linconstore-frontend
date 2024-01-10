@@ -142,7 +142,9 @@ const AddProduct: React.FC<IProduct> = ({
         ),
       })
     ),
-    subcategory: yup.string().required(t("seller.post.add_product.you_must_select_a_sub_category")),
+    subcategory: yup
+      .string()
+      .required(t("seller.post.add_product.you_must_select_a_sub_category")),
     standard: yup
       .number()
       .typeError(t("seller.post.add_product.must_be_a_number"))
@@ -181,7 +183,7 @@ const AddProduct: React.FC<IProduct> = ({
       .required(t("seller.post.add_product.require_msg")),
   });
   const [categories, setCategories] = useState<string[]>([]);
-  const onCategorySuccess = () => { };
+  const onCategorySuccess = () => {};
   const rateDispatch: number = useSelector(
     (state: Iutil) => state.util.sellerRate
   );
@@ -256,18 +258,18 @@ const AddProduct: React.FC<IProduct> = ({
 
   useEffect(() => {
     if (selectedTemp) {
-      setValue("template_title", selectedTemp.template_title)
-      setValue("title", selectedTemp.title)
-      setValue("condition", selectedTemp.condition)
-      setValue("category", selectedTemp.category.title)
-      setValue("subcategory", selectedTemp.subcategory)
-      setValue("price", selectedTemp.price)
-      setValue("quantity", selectedTemp.quantity)
-      setValue("tags", selectedTemp.tags)
-      setValue("details", selectedTemp.shippingDetail)
-      setValue("care", selectedTemp.instruction)
-      setValue("standard", selectedTemp.shipping[0].standard.price)
-      setValue("express", selectedTemp.shipping[0].express.price)
+      setValue("template_title", selectedTemp.template_title);
+      setValue("title", selectedTemp.title);
+      setValue("condition", selectedTemp.condition);
+      setValue("category", selectedTemp.category.title);
+      setValue("subcategory", selectedTemp.subcategory);
+      setValue("price", selectedTemp.price);
+      setValue("quantity", selectedTemp.quantity);
+      setValue("tags", selectedTemp.tags);
+      setValue("details", selectedTemp.shippingDetail);
+      setValue("care", selectedTemp.instruction);
+      setValue("standard", selectedTemp.shipping[0].standard.price);
+      setValue("express", selectedTemp.shipping[0].express.price);
     }
   }, [selectedTemp]);
 
@@ -568,7 +570,7 @@ const AddProduct: React.FC<IProduct> = ({
   const stock = watch("quantity");
 
   const onGetStoreSuccess = (data: Record<string, any>) => {
-    setIsGlobal(data?.sellGlobal)
+    setIsGlobal(data?.sellGlobal);
   };
 
   const {
@@ -661,13 +663,13 @@ const AddProduct: React.FC<IProduct> = ({
                         <Grid container>
                           {acceptedFiles.length > 0 &&
                             acceptedFiles.map((file, index) => (
-                              <Grid item xs={12} sm={6} md={4} key={index}>
+                              <Grid item xs={12} sm={6} md={4} key={index} sx={{m:1}}>
                                 <Avatar
                                   variant={"square"}
                                   src={URL.createObjectURL(file)}
                                   alt="photo preview"
                                   sx={{
-                                    width: "200px",
+                                    width: "100%",
                                     height: "200px",
                                     mb: 2,
                                   }}
@@ -682,7 +684,12 @@ const AddProduct: React.FC<IProduct> = ({
                               "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                             }
                             alt="photo preview"
-                            sx={{ width: "200px", height: "200px", mb: 2 }}
+                            sx={{
+                              width: "200px",
+                              height: "200px",
+                              mb: 2,
+                              ml: 2,
+                            }}
                           />
                         )}
                         <div>
@@ -755,7 +762,7 @@ const AddProduct: React.FC<IProduct> = ({
                     required
                     fullWidth
                     error={!!errors?.condition}
-                  // helperText={errors?.category?.message}
+                    // helperText={errors?.category?.message}
                   >
                     <MenuItem value={"New"}>
                       {t("seller.post.add_product.new")}
@@ -816,7 +823,7 @@ const AddProduct: React.FC<IProduct> = ({
                 fullWidth
                 options={categories}
                 value={category}
-                getOptionLabel={(cat) => (cat && t(`maincategory.${cat}`))}
+                getOptionLabel={(cat) => cat && t(`maincategory.${cat}`)}
                 renderInput={(params) => (
                   <TextField
                     sx={{
