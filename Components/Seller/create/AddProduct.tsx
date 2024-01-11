@@ -47,7 +47,7 @@ import {
   useGetUserStore,
   useUpdateStore,
 } from "../../../hooks/useDataFetch";
-import { uploadImages } from "../../../Helpers/utils";
+import { uploadImages, uploadVideo } from "../../../Helpers/utils";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import MenuItem from "@mui/material/MenuItem";
@@ -284,7 +284,7 @@ const AddProduct: React.FC<IProduct> = ({
 
   const acceptedVideoFileTypes = {
     "video/*": [".mp4", ".webm"],
-  };  
+  };
 
   const onDrop = useCallback((acceptedFiles: any) => {
     if (acceptedFiles?.length) {
@@ -307,7 +307,7 @@ const AddProduct: React.FC<IProduct> = ({
         ),
       ]);
     }
-    setValue("file", acceptedFiles);
+    setValue("videoFile", acceptedFiles);
   }, []);
 
   const removeFile = (name: any) => {
@@ -501,6 +501,7 @@ const AddProduct: React.FC<IProduct> = ({
   const onSubmit: SubmitHandler<postItemDefaultValue> = async (data) => {
     setIsUploading(true);
     const photo = await uploadImages(data.file);
+    const videos = await uploadVideo(data.videoFile);
     setIsUploading(false);
     const {
       antarctica,
@@ -575,12 +576,14 @@ const AddProduct: React.FC<IProduct> = ({
           instruction: data.care,
           shipping,
           photo,
+          videos,
           isGlobal,
           continents,
           variants: variantPlaceholder,
         };
         mutate(createProduct);
       } else {
+
         const createProduct = {
           ...data,
           price: Number(price.toFixed(2)),
@@ -588,12 +591,14 @@ const AddProduct: React.FC<IProduct> = ({
           shippingDetail: data.details,
           instruction: data.care,
           photo,
+          videos,
           isGlobal,
           variants: variantPlaceholder,
         };
         mutate(createProduct);
       }
     } else {
+
       if (isGlobal) {
         const createProduct = {
           ...data,
@@ -603,10 +608,12 @@ const AddProduct: React.FC<IProduct> = ({
           price: price,
           isGlobal,
           photo,
+          videos,
           continents,
         };
         mutate(createProduct);
       } else {
+
         const createProduct = {
           ...data,
           price: price,
@@ -616,6 +623,7 @@ const AddProduct: React.FC<IProduct> = ({
           shipping,
           isGlobal,
           photo,
+          videos,
         };
         mutate(createProduct);
       }
@@ -851,43 +859,44 @@ const AddProduct: React.FC<IProduct> = ({
                         {/*    </button>{' '}*/}
                         {/*    or drag and drop*/}
                         {/*</p>*/}
-                        
+
                         <Grid container spacing={2}>
-                          {videoFiles.map((file, index)=>{
-                            console.log('file=============>>>>>>>>>>>>>>', file)
-                            return(
+                          {videoFiles.map((file, index) => {
+                            return (
                               <Grid
-                              item
-                              xs={12}
-                              sm={videoFiles.length === 1 ? 12 : 6}
-                              md={videoFiles.length === 1 ? 12 : 4}
-                              key={index}
-                            >
-                              <Box sx={{ width: "100%", position: "relative" }}>
-                                <ReactPlayer
-                                  url={URL.createObjectURL(file)}
-                                  controls
-                                  width="100%"
-                                  height="30vh"
-                                  style={{ borderRadius: 2, marginBottom: 2 }}
-                                />
-                                <Button
-                                  type="button"
-                                  sx={{
-                                    position: "absolute",
-                                    top: 5,
-                                    right: 5,
-                                    color: "red",
-                                    background: "white",
-                                    borderRadius: 5,
-                                  }}
-                                  onClick={() => removeVideoFile(file.name)}
+                                item
+                                xs={12}
+                                sm={videoFiles.length === 1 ? 12 : 6}
+                                md={videoFiles.length === 1 ? 12 : 4}
+                                key={index}
+                              >
+                                <Box
+                                  sx={{ width: "100%", position: "relative" }}
                                 >
-                                  <Delete />
-                                </Button>
-                              </Box>
-                            </Grid>
-                            )
+                                  <div className="iframe-container">
+                                    <iframe
+                                      title="Embedded Video"
+                                      src={URL.createObjectURL(file)}
+                                      allowFullScreen
+                                    ></iframe>
+                                  </div>
+                                  <Button
+                                    type="button"
+                                    sx={{
+                                      position: "absolute",
+                                      top: 5,
+                                      right: 5,
+                                      color: "red",
+                                      background: "white",
+                                      borderRadius: 5,
+                                    }}
+                                    onClick={() => removeVideoFile(file.name)}
+                                  >
+                                    <Delete />
+                                  </Button>
+                                </Box>
+                              </Grid>
+                            );
                           })}
                         </Grid>
                         {videoFiles.length === 0 && (

@@ -53,31 +53,69 @@ export const uploadImages = async (images: FileList[]) => {
   }
   return updatedImages;
 };
-export const uploadVideo = async (video: string) => {
-  const data = new FormData();
-  data.append('file', video);
-  data.append('cloud_name', 'linconstore-test');
-  data.append('upload_preset', 'videos');
+
+
+
+export const uploadVideo = async (videos: any) => {
+  const updatedVideoUrls: string[] = [];
+
+  const formData = new FormData();
+
+  for (let i = 0; i < videos.length; i++) {
+    formData.append('videos', videos[i]);
+  }
+
+  formData.append('duration', '30'); // Add the default duration or get it from the user input
 
   try {
     const response = await axios.post(
       'http://localhost:5000/upload-video',
-      data,
+      formData,
       {
         headers: {
-          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'multipart/form-data',
         },
       }
     );
 
-    const newVideoData = response.data;
-    return newVideoData.secure_url;
+    const newData = response.data;
+    if (newData.videoUrls && Array.isArray(newData.videoUrls)) {
+      updatedVideoUrls.push(...newData.videoUrls);
+    }
   } catch (e) {
     console.log(e);
-    // Handle the error as needed (e.g., throw an error or return null)
-    return null;
   }
+
+  return updatedVideoUrls;
 };
+
+
+
+// export const uploadVideo = async (video: FileList[]) => {
+//   const data = new FormData();
+//   data.append('file', video);
+//   data.append('cloud_name', 'linconstore-test');
+//   data.append('upload_preset', 'videos');
+
+//   try {
+//     const response = await axios.post(
+//       'http://localhost:5000/upload-video',
+//       data,
+//       {
+//         headers: {
+//           'X-Requested-With': 'XMLHttpRequest',
+//         },
+//       }
+//     );
+
+//     const newVideoData = response.data;
+//     return newVideoData.secure_url;
+//   } catch (e) {
+//     console.log(e);
+//     // Handle the error as needed (e.g., throw an error or return null)
+//     return null;
+//   }
+// };
 
 
 export const countryList: string[] = [
