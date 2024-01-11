@@ -29,6 +29,7 @@ import {
   Delete,
   HelpOutline,
   PhotoCamera,
+  VideoCameraBack,
 } from "@mui/icons-material";
 import Checkbox from "@mui/material/Checkbox";
 import TableContainer from "@mui/material/TableContainer";
@@ -39,6 +40,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Dropzone, { Accept } from "react-dropzone";
+import ReactPlayer from "react-player";
 import {
   useCreateProduct,
   useGetAllCategories,
@@ -194,6 +196,7 @@ const AddProduct: React.FC<IProduct> = ({
   const { data, isLoading: loading } = useGetAllCategories(onCategorySuccess);
   const [subCategories, setSubCategories] = useState([]);
   const [files, setFiles] = useState([]);
+  const [videoFiles, setVideoFiles] = useState([]);
 
   const [tags, setTags] = useState<string[]>([]);
 
@@ -229,6 +232,7 @@ const AddProduct: React.FC<IProduct> = ({
       standard: 0,
       express: 0,
       file: [],
+      videoFile: [],
       asia: 0,
       africa: 0,
       europe: 0,
@@ -274,6 +278,13 @@ const AddProduct: React.FC<IProduct> = ({
       setValue("express", selectedTemp.shipping[0].express.price);
     }
   }, [selectedTemp]);
+  const acceptedImageFileTypes = {
+    "image/*": [".jpeg", ".jpg", ".png"],
+  };
+
+  const acceptedVideoFileTypes = {
+    "video/*": [".mp4", ".webm"],
+  };  
 
   const onDrop = useCallback((acceptedFiles: any) => {
     if (acceptedFiles?.length) {
@@ -284,7 +295,19 @@ const AddProduct: React.FC<IProduct> = ({
         ),
       ]);
     }
-    setValue("file",acceptedFiles)
+    setValue("file", acceptedFiles);
+  }, []);
+
+  const onDropVideoFile = useCallback((acceptedFiles: any) => {
+    if (acceptedFiles?.length) {
+      setVideoFiles((previousFiles) => [
+        ...previousFiles,
+        ...acceptedFiles.map((file: Blob | MediaSource) =>
+          Object.assign(file, { preview: URL.createObjectURL(file) })
+        ),
+      ]);
+    }
+    setValue("file", acceptedFiles);
   }, []);
 
   const removeFile = (name: any) => {
@@ -293,10 +316,16 @@ const AddProduct: React.FC<IProduct> = ({
     setValue("file", updatedFiles, { shouldValidate: true });
   };
 
+  const removeVideoFile = (name: any) => {
+    const updatedFiles = videoFiles.filter((file) => file.name !== name);
+    setVideoFiles(updatedFiles);
+    setValue("videoFile", updatedFiles, { shouldValidate: true });
+  };
+
   const category = watch("category");
   const tag = watch("tags");
   const subcategory = watch("subcategory");
- const file =watch("file")
+  const file = watch("file");
 
   useEffect(() => {
     const subTags = categoryTags.find((x) => x.key === category);
@@ -333,9 +362,6 @@ const AddProduct: React.FC<IProduct> = ({
     setItem((prevState) => [
       ...prevState.filter((data) => data.options.id !== index),
     ]);
-  };
-  const acceptedFileTypes = {
-    "image/*": [".jpeg", ".jpg", ".png"],
   };
 
   const handleAddShare = (index: number) => {
@@ -652,7 +678,7 @@ const AddProduct: React.FC<IProduct> = ({
               render={({ field: { onChange, onBlur }, fieldState }) => (
                 <Dropzone
                   noClick
-                  accept={acceptedFileTypes as unknown as Accept}
+                  accept={acceptedImageFileTypes as unknown as Accept}
                   onDrop={onDrop}
                 >
                   {({
@@ -751,6 +777,146 @@ const AddProduct: React.FC<IProduct> = ({
                           onClick={open}
                         >
                           {t("seller.post.add_product.upload_btn")}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
+              )}
+            />
+          </Stack>
+        </Card>
+        <Card
+          elevation={1}
+          sx={{
+            background: "white",
+            // border: "2px solid #000",
+            boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
+            // maxWidth: { xs: "auto", lg: "auto" },
+            my: 2,
+          }}
+        >
+          <Stack
+            spacing={0}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              p: 3,
+            }}
+          >
+            <Controller
+              control={control}
+              name="videoFile"
+              rules={{
+                required: {
+                  value: true,
+                  message: t("seller.post.add_product.require_msg"),
+                },
+              }}
+              render={({ field: { onChange, onBlur }, fieldState }) => (
+                <Dropzone
+                  noClick
+                  accept={acceptedVideoFileTypes as unknown as Accept}
+                  onDrop={onDropVideoFile}
+                >
+                  {({
+                    getRootProps,
+                    getInputProps,
+                    open,
+                    isDragActive,
+                    acceptedFiles,
+                  }) => (
+                    <div>
+                      <div
+                        style={{
+                          backgroundColor: isDragActive
+                            ? `#808080`
+                            : "transparent",
+                        }}
+                        {...getRootProps()}
+                      >
+                        <input
+                          {...getInputProps({
+                            id: "spreadsheet",
+                            onChange,
+                            onBlur,
+                          })}
+                        />
+
+                        {/*<p>*/}
+                        {/*    <button type="button" onClick={open}>*/}
+                        {/*        Choose a file*/}
+                        {/*    </button>{' '}*/}
+                        {/*    or drag and drop*/}
+                        {/*</p>*/}
+                        
+                        <Grid container spacing={2}>
+                          {videoFiles.map((file, index)=>{
+                            console.log('file=============>>>>>>>>>>>>>>', file)
+                            return(
+                              <Grid
+                              item
+                              xs={12}
+                              sm={videoFiles.length === 1 ? 12 : 6}
+                              md={videoFiles.length === 1 ? 12 : 4}
+                              key={index}
+                            >
+                              <Box sx={{ width: "100%", position: "relative" }}>
+                                <ReactPlayer
+                                  url={URL.createObjectURL(file)}
+                                  controls
+                                  width="100%"
+                                  height="30vh"
+                                  style={{ borderRadius: 2, marginBottom: 2 }}
+                                />
+                                <Button
+                                  type="button"
+                                  sx={{
+                                    position: "absolute",
+                                    top: 5,
+                                    right: 5,
+                                    color: "red",
+                                    background: "white",
+                                    borderRadius: 5,
+                                  }}
+                                  onClick={() => removeVideoFile(file.name)}
+                                >
+                                  <Delete />
+                                </Button>
+                              </Box>
+                            </Grid>
+                            )
+                          })}
+                        </Grid>
+                        {videoFiles.length === 0 && (
+                          <Avatar
+                            variant={"square"}
+                            src={
+                              "https://www.thejungleadventure.com/assets/images/logo/novideo.png"
+                            }
+                            alt="photo preview"
+                            sx={{
+                              width: "200px",
+                              height: "200px",
+                              mb: 2,
+                              ml: 2,
+                            }}
+                          />
+                        )}
+                        <div>
+                          {fieldState.error && (
+                            <span role="alert">{fieldState.error.message}</span>
+                          )}
+                        </div>
+                        <Button
+                          variant="outlined"
+                          component="span"
+                          startIcon={<VideoCameraBack fontSize="large" />}
+                          onClick={open}
+                        >
+                          Upload Video
                         </Button>
                       </div>
                     </div>

@@ -78,6 +78,7 @@ export type postItemDefaultValue = {
   standard: number;
   express: number;
   file: FileList[];
+  videoFile:FileList[];
   // policy: string,
   care: string;
   africa: number;
