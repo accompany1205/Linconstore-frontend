@@ -502,6 +502,7 @@ const AddProduct: React.FC<IProduct> = ({
     setIsUploading(true);
     const photo = await uploadImages(data.file);
     const videos = await uploadVideo(data.videoFile);
+    console.log('videosvideosvideosvideosvideos', videos)
     setIsUploading(false);
     const {
       antarctica,
