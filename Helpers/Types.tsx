@@ -158,8 +158,8 @@ export type TProducts = {
 };
 
 export type IShipping = {
-  express: IShippingDetail;
-  standard: IShippingDetail;
+  express?: IShippingDetail;
+  standard?: IShippingDetail;
 };
 
 export type IShippingDetail = {
