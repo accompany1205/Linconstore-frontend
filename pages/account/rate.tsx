@@ -27,6 +27,7 @@ const RatePage: NextPage = () => {
         // alert(`userInfo------------------------------------: ${userString}`);
         if (userString) {
             const user = JSON.parse(userString);
+            user.language = localStorage.getItem('currentLanguage') ?? 'en';
             setUserInfo(user)
         } else {
             // alert(address)
