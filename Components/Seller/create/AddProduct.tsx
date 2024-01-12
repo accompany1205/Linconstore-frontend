@@ -921,14 +921,23 @@ const AddProduct: React.FC<IProduct> = ({
                                 key={index}
                               >
                                 <Box
-                                  sx={{ width: "100%", position: "relative" }}
+                                  sx={{ width: "100%", position: "relative",background:'#80808030',display:'flex',justifyContent:'center',borderRadius:'2px' }}
                                 >
-                                  <div className="iframe-container">
+                                  <Box
+                                    sx={{
+                                      width: "200px",
+                                      height: "200px",
+                                      mb: 2,
+                                      ml: 2,
+                                    }}
+                                  >
                                     <ReactPlayer
                                       url={URL.createObjectURL(file)}
                                       controls={true}
+                                      width="100%" 
+                                      height="200px"
                                     />
-                                  </div>
+                                  </Box>
                                   <Button
                                     type="button"
                                     sx={{
