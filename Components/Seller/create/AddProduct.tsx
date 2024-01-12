@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
+  Alert,
   Autocomplete,
   Card,
   CircularProgress,
@@ -11,6 +12,7 @@ import {
   IconButton,
   InputLabel,
   Select,
+  Snackbar,
   Stack,
   Tooltip,
   useMediaQuery,
@@ -197,6 +199,11 @@ const AddProduct: React.FC<IProduct> = ({
   const [subCategories, setSubCategories] = useState([]);
   const [files, setFiles] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
+  const [videoDurations, setVideoDurations] = useState([]);
+  const [rejectedFiles, setRejectedFiles] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
 
   const [tags, setTags] = useState<string[]>([]);
 
@@ -299,6 +306,38 @@ const AddProduct: React.FC<IProduct> = ({
   }, []);
 
   const onDropVideoFile = useCallback((acceptedFiles: any) => {
+    const newVideoDurations = [];
+    const newRejectedFiles = [];
+
+    acceptedFiles.forEach(file => {
+      if (file.type.startsWith('video/')) {
+        const video = document.createElement('video');
+
+        video.addEventListener('loadedmetadata', () => {
+          const duration = Math.round(video.duration);
+
+          if (duration <= 58) {
+            newVideoDurations.push({ file, duration });
+          } else {
+            // Video duration exceeds the limit
+            newRejectedFiles.push(file);
+            setSnackbarMessage(`Video duration of '${file.name}' exceeds 58 seconds.`);
+            setSnackbarOpen(true);
+          }
+
+          // Update state with the new durations and rejected files
+          setVideoDurations(newVideoDurations);
+          setRejectedFiles(newRejectedFiles);
+        });
+
+        video.src = URL.createObjectURL(file);
+      } else {
+        // The uploaded file is not a video
+        setSnackbarMessage(`Please upload a valid video file: '${file.name}'.`);
+        setSnackbarOpen(true);
+      }
+    });
+    
     if (acceptedFiles?.length) {
       setVideoFiles((previousFiles) => [
         ...previousFiles,
@@ -375,7 +414,7 @@ const AddProduct: React.FC<IProduct> = ({
   const removeItemName = (id: number, parIndex: number) => {
     const newItem = [...items];
     newItem.forEach((data, parentIndex) =>
-      data.options.value.forEach((s, index) => {
+      data.options.value.forEach((_s, index) => {
         if (index === id && parIndex === parentIndex) {
           return data.options.value.splice(index, 1);
         }
@@ -449,7 +488,7 @@ const AddProduct: React.FC<IProduct> = ({
     }
   }, [watch("category")]);
   const router = useRouter();
-  const onSuccess = (data: object) => {
+  const onSuccess = (_data: object) => {
     reset();
     handleRefetch();
     setStepper(false);
@@ -502,7 +541,6 @@ const AddProduct: React.FC<IProduct> = ({
     setIsUploading(true);
     const photo = await uploadImages(data.file);
     const videos = await uploadVideo(data.videoFile);
-    console.log('videosvideosvideosvideosvideos', videos)
     setIsUploading(false);
     const {
       antarctica,
@@ -584,7 +622,6 @@ const AddProduct: React.FC<IProduct> = ({
         };
         mutate(createProduct);
       } else {
-
         const createProduct = {
           ...data,
           price: Number(price.toFixed(2)),
@@ -599,7 +636,6 @@ const AddProduct: React.FC<IProduct> = ({
         mutate(createProduct);
       }
     } else {
-
       if (isGlobal) {
         const createProduct = {
           ...data,
@@ -614,7 +650,6 @@ const AddProduct: React.FC<IProduct> = ({
         };
         mutate(createProduct);
       } else {
-
         const createProduct = {
           ...data,
           price: price,
@@ -643,11 +678,28 @@ const AddProduct: React.FC<IProduct> = ({
     refetch: refetchUserStore,
   } = useGetUserStore(onGetStoreSuccess);
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   return (
     <>
       <Box>
         <ArrowBack onClick={() => setStepper(false)} className={"pointer"} />
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000} // Adjust as needed
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="error"
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -875,11 +927,10 @@ const AddProduct: React.FC<IProduct> = ({
                                   sx={{ width: "100%", position: "relative" }}
                                 >
                                   <div className="iframe-container">
-                                    <iframe
-                                      title="Embedded Video"
-                                      src={URL.createObjectURL(file)}
-                                      allowFullScreen
-                                    ></iframe>
+                                    <ReactPlayer
+                                      url={URL.createObjectURL(file)}
+                                      controls={true}
+                                    />
                                   </div>
                                   <Button
                                     type="button"
@@ -1067,7 +1118,7 @@ const AddProduct: React.FC<IProduct> = ({
                     )}
                   />
                 )}
-                onChange={(e, data) => onChange(data)}
+                onChange={(_e, data) => onChange(data)}
               />
             )}
           />
@@ -1104,7 +1155,7 @@ const AddProduct: React.FC<IProduct> = ({
                     )}
                   />
                 )}
-                onChange={(e, data) => onChange(data)}
+                onChange={(_e, data) => onChange(data)}
               />
             )}
           />
@@ -1221,7 +1272,7 @@ const AddProduct: React.FC<IProduct> = ({
                   placeholder={t("seller.post.add_product.tags_placeholder")}
                 />
               )}
-              onChange={(e, data) => onChange(data)}
+              onChange={(_e, data) => onChange(data)}
             />
           )}
         />
@@ -1460,7 +1511,7 @@ const AddProduct: React.FC<IProduct> = ({
                           <Grid item xs={1}>
                             <div
                               className="font-icon-wrapper"
-                              onClick={(event) => removeItem(data.options.id)}
+                              onClick={(_event) => removeItem(data.options.id)}
                             >
                               <IconButton aria-label="delete">
                                 <Delete />
