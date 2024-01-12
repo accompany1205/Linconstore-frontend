@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 
 const RatePage: NextPage = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [userInfo, setUserInfo] = useState(null)
     const router = useRouter();
     const [isVerified, setIsVerified] = useState<Boolean>(false);
@@ -27,7 +27,9 @@ const RatePage: NextPage = () => {
         // alert(`userInfo------------------------------------: ${userString}`);
         if (userString) {
             const user = JSON.parse(userString);
-            user.language = localStorage.getItem('currentLanguage') ?? 'en';
+            const language = localStorage.getItem("currentLanguage") ?? "en"
+            i18n.changeLanguage(language);
+            user.language = language;
             setUserInfo(user)
         } else {
             // alert(address)

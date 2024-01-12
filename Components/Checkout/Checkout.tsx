@@ -242,7 +242,7 @@ const Checkout: React.FC = () => {
   }, [billingAddress, isChecked]);
 
   const paymentSuccess = (data: any) => {
-    alert(`data after payment-------------------------${data.url}`);
+    // alert(`data after payment-------------------------${data.url}`);
     const language = localStorage.getItem("currentLanguage") ?? "en"
     i18n.changeLanguage(language);
     router.push(data.url, data.url, { locale: language })
