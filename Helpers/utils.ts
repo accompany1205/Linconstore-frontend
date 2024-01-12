@@ -91,34 +91,6 @@ export const uploadVideo = async (videos: any) => {
 };
 
 
-
-// export const uploadVideo = async (video: FileList[]) => {
-//   const data = new FormData();
-//   data.append('file', video);
-//   data.append('cloud_name', 'linconstore-test');
-//   data.append('upload_preset', 'videos');
-
-//   try {
-//     const response = await axios.post(
-//       'http://localhost:5000/upload-video',
-//       data,
-//       {
-//         headers: {
-//           'X-Requested-With': 'XMLHttpRequest',
-//         },
-//       }
-//     );
-
-//     const newVideoData = response.data;
-//     return newVideoData.secure_url;
-//   } catch (e) {
-//     console.log(e);
-//     // Handle the error as needed (e.g., throw an error or return null)
-//     return null;
-//   }
-// };
-
-
 export const countryList: string[] = [
   "Australia",
   "Austria",
