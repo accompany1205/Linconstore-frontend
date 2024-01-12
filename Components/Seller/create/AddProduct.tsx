@@ -319,20 +319,17 @@ const AddProduct: React.FC<IProduct> = ({
           if (duration <= 58) {
             newVideoDurations.push({ file, duration });
           } else {
-            // Video duration exceeds the limit
             newRejectedFiles.push(file);
             setSnackbarMessage(`Video duration of '${file.name}' exceeds 58 seconds.`);
             setSnackbarOpen(true);
           }
 
-          // Update state with the new durations and rejected files
           setVideoDurations(newVideoDurations);
           setRejectedFiles(newRejectedFiles);
         });
 
         video.src = URL.createObjectURL(file);
       } else {
-        // The uploaded file is not a video
         setSnackbarMessage(`Please upload a valid video file: '${file.name}'.`);
         setSnackbarOpen(true);
       }

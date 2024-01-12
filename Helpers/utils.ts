@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IRound } from "./Types";
+import {baseUrl} from "../Helpers/baseUrl"
 
 export function numberWithCommas(x: number) {
 
@@ -69,7 +70,7 @@ export const uploadVideo = async (videos: any) => {
 
   try {
     const response = await axios.post(
-      'http://localhost:5000/upload-video',
+      baseUrl,
       formData,
       {
         headers: {
