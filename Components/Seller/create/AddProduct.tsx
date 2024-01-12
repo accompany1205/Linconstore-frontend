@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
+  Alert,
   Autocomplete,
   Card,
   CircularProgress,
@@ -11,6 +12,7 @@ import {
   IconButton,
   InputLabel,
   Select,
+  Snackbar,
   Stack,
   Tooltip,
   useMediaQuery,
@@ -29,6 +31,7 @@ import {
   Delete,
   HelpOutline,
   PhotoCamera,
+  VideoCameraBack,
 } from "@mui/icons-material";
 import Checkbox from "@mui/material/Checkbox";
 import TableContainer from "@mui/material/TableContainer";
@@ -39,13 +42,14 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Dropzone, { Accept } from "react-dropzone";
+import ReactPlayer from "react-player";
 import {
   useCreateProduct,
   useGetAllCategories,
   useGetUserStore,
   useUpdateStore,
 } from "../../../hooks/useDataFetch";
-import { uploadImages } from "../../../Helpers/utils";
+import { uploadImages, uploadVideo } from "../../../Helpers/utils";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import MenuItem from "@mui/material/MenuItem";
@@ -194,6 +198,12 @@ const AddProduct: React.FC<IProduct> = ({
   const { data, isLoading: loading } = useGetAllCategories(onCategorySuccess);
   const [subCategories, setSubCategories] = useState([]);
   const [files, setFiles] = useState([]);
+  const [videoFiles, setVideoFiles] = useState([]);
+  const [videoDurations, setVideoDurations] = useState([]);
+  const [rejectedFiles, setRejectedFiles] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
 
   const [tags, setTags] = useState<string[]>([]);
 
@@ -229,6 +239,7 @@ const AddProduct: React.FC<IProduct> = ({
       standard: 0,
       express: 0,
       file: [],
+      videoFile: [],
       asia: 0,
       africa: 0,
       europe: 0,
@@ -274,6 +285,13 @@ const AddProduct: React.FC<IProduct> = ({
       setValue("express", selectedTemp.shipping[0].express.price);
     }
   }, [selectedTemp]);
+  const acceptedImageFileTypes = {
+    "image/*": [".jpeg", ".jpg", ".png"],
+  };
+
+  const acceptedVideoFileTypes = {
+    "video/*": [".mp4", ".webm"],
+  };
 
   const onDrop = useCallback((acceptedFiles: any) => {
     if (acceptedFiles?.length) {
@@ -284,7 +302,48 @@ const AddProduct: React.FC<IProduct> = ({
         ),
       ]);
     }
-    setValue("file",acceptedFiles)
+    setValue("file", acceptedFiles);
+  }, []);
+
+  const onDropVideoFile = useCallback((acceptedFiles: any) => {
+    const newVideoDurations = [];
+    const newRejectedFiles = [];
+
+    acceptedFiles.forEach(file => {
+      if (file.type.startsWith('video/')) {
+        const video = document.createElement('video');
+
+        video.addEventListener('loadedmetadata', () => {
+          const duration = Math.round(video.duration);
+
+          if (duration <= 58) {
+            newVideoDurations.push({ file, duration });
+          } else {
+            newRejectedFiles.push(file);
+            setSnackbarMessage(`Video duration of '${file.name}' exceeds 58 seconds.`);
+            setSnackbarOpen(true);
+          }
+
+          setVideoDurations(newVideoDurations);
+          setRejectedFiles(newRejectedFiles);
+        });
+
+        video.src = URL.createObjectURL(file);
+      } else {
+        setSnackbarMessage(`Please upload a valid video file: '${file.name}'.`);
+        setSnackbarOpen(true);
+      }
+    });
+    
+    if (acceptedFiles?.length) {
+      setVideoFiles((previousFiles) => [
+        ...previousFiles,
+        ...acceptedFiles.map((file: Blob | MediaSource) =>
+          Object.assign(file, { preview: URL.createObjectURL(file) })
+        ),
+      ]);
+    }
+    setValue("videoFile", acceptedFiles);
   }, []);
 
   const removeFile = (name: any) => {
@@ -293,10 +352,16 @@ const AddProduct: React.FC<IProduct> = ({
     setValue("file", updatedFiles, { shouldValidate: true });
   };
 
+  const removeVideoFile = (name: any) => {
+    const updatedFiles = videoFiles.filter((file) => file.name !== name);
+    setVideoFiles(updatedFiles);
+    setValue("videoFile", updatedFiles, { shouldValidate: true });
+  };
+
   const category = watch("category");
   const tag = watch("tags");
   const subcategory = watch("subcategory");
- const file =watch("file")
+  const file = watch("file");
 
   useEffect(() => {
     const subTags = categoryTags.find((x) => x.key === category);
@@ -334,9 +399,6 @@ const AddProduct: React.FC<IProduct> = ({
       ...prevState.filter((data) => data.options.id !== index),
     ]);
   };
-  const acceptedFileTypes = {
-    "image/*": [".jpeg", ".jpg", ".png"],
-  };
 
   const handleAddShare = (index: number) => {
     const values = [...items];
@@ -349,7 +411,7 @@ const AddProduct: React.FC<IProduct> = ({
   const removeItemName = (id: number, parIndex: number) => {
     const newItem = [...items];
     newItem.forEach((data, parentIndex) =>
-      data.options.value.forEach((s, index) => {
+      data.options.value.forEach((_s, index) => {
         if (index === id && parIndex === parentIndex) {
           return data.options.value.splice(index, 1);
         }
@@ -423,7 +485,7 @@ const AddProduct: React.FC<IProduct> = ({
     }
   }, [watch("category")]);
   const router = useRouter();
-  const onSuccess = (data: object) => {
+  const onSuccess = (_data: object) => {
     reset();
     handleRefetch();
     setStepper(false);
@@ -475,6 +537,7 @@ const AddProduct: React.FC<IProduct> = ({
   const onSubmit: SubmitHandler<postItemDefaultValue> = async (data) => {
     setIsUploading(true);
     const photo = await uploadImages(data.file);
+    const videos = await uploadVideo(data.videoFile);
     setIsUploading(false);
     const {
       antarctica,
@@ -549,6 +612,7 @@ const AddProduct: React.FC<IProduct> = ({
           instruction: data.care,
           shipping,
           photo,
+          videos,
           isGlobal,
           continents,
           variants: variantPlaceholder,
@@ -562,6 +626,7 @@ const AddProduct: React.FC<IProduct> = ({
           shippingDetail: data.details,
           instruction: data.care,
           photo,
+          videos,
           isGlobal,
           variants: variantPlaceholder,
         };
@@ -577,6 +642,7 @@ const AddProduct: React.FC<IProduct> = ({
           price: price,
           isGlobal,
           photo,
+          videos,
           continents,
         };
         mutate(createProduct);
@@ -590,6 +656,7 @@ const AddProduct: React.FC<IProduct> = ({
           shipping,
           isGlobal,
           photo,
+          videos,
         };
         mutate(createProduct);
       }
@@ -608,11 +675,28 @@ const AddProduct: React.FC<IProduct> = ({
     refetch: refetchUserStore,
   } = useGetUserStore(onGetStoreSuccess);
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   return (
     <>
       <Box>
         <ArrowBack onClick={() => setStepper(false)} className={"pointer"} />
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000} // Adjust as needed
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="error"
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -652,7 +736,7 @@ const AddProduct: React.FC<IProduct> = ({
               render={({ field: { onChange, onBlur }, fieldState }) => (
                 <Dropzone
                   noClick
-                  accept={acceptedFileTypes as unknown as Accept}
+                  accept={acceptedImageFileTypes as unknown as Accept}
                   onDrop={onDrop}
                 >
                   {({
@@ -751,6 +835,146 @@ const AddProduct: React.FC<IProduct> = ({
                           onClick={open}
                         >
                           {t("seller.post.add_product.upload_btn")}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
+              )}
+            />
+          </Stack>
+        </Card>
+        <Card
+          elevation={1}
+          sx={{
+            background: "white",
+            // border: "2px solid #000",
+            boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
+            // maxWidth: { xs: "auto", lg: "auto" },
+            my: 2,
+          }}
+        >
+          <Stack
+            spacing={0}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              p: 3,
+            }}
+          >
+            <Controller
+              control={control}
+              name="videoFile"
+              rules={{
+                required: {
+                  value: true,
+                  message: t("seller.post.add_product.require_msg"),
+                },
+              }}
+              render={({ field: { onChange, onBlur }, fieldState }) => (
+                <Dropzone
+                  noClick
+                  accept={acceptedVideoFileTypes as unknown as Accept}
+                  onDrop={onDropVideoFile}
+                >
+                  {({
+                    getRootProps,
+                    getInputProps,
+                    open,
+                    isDragActive,
+                    acceptedFiles,
+                  }) => (
+                    <div>
+                      <div
+                        style={{
+                          backgroundColor: isDragActive
+                            ? `#808080`
+                            : "transparent",
+                        }}
+                        {...getRootProps()}
+                      >
+                        <input
+                          {...getInputProps({
+                            id: "spreadsheet",
+                            onChange,
+                            onBlur,
+                          })}
+                        />
+
+                        {/*<p>*/}
+                        {/*    <button type="button" onClick={open}>*/}
+                        {/*        Choose a file*/}
+                        {/*    </button>{' '}*/}
+                        {/*    or drag and drop*/}
+                        {/*</p>*/}
+
+                        <Grid container spacing={2}>
+                          {videoFiles.map((file, index) => {
+                            return (
+                              <Grid
+                                item
+                                xs={12}
+                                sm={videoFiles.length === 1 ? 12 : 6}
+                                md={videoFiles.length === 1 ? 12 : 4}
+                                key={index}
+                              >
+                                <Box
+                                  sx={{ width: "100%", position: "relative" }}
+                                >
+                                  <div className="iframe-container">
+                                    <ReactPlayer
+                                      url={URL.createObjectURL(file)}
+                                      controls={true}
+                                    />
+                                  </div>
+                                  <Button
+                                    type="button"
+                                    sx={{
+                                      position: "absolute",
+                                      top: 5,
+                                      right: 5,
+                                      color: "red",
+                                      background: "white",
+                                      borderRadius: 5,
+                                    }}
+                                    onClick={() => removeVideoFile(file.name)}
+                                  >
+                                    <Delete />
+                                  </Button>
+                                </Box>
+                              </Grid>
+                            );
+                          })}
+                        </Grid>
+                        {videoFiles.length === 0 && (
+                          <Avatar
+                            variant={"square"}
+                            src={
+                              "https://www.thejungleadventure.com/assets/images/logo/novideo.png"
+                            }
+                            alt="photo preview"
+                            sx={{
+                              width: "200px",
+                              height: "200px",
+                              mb: 2,
+                              ml: 2,
+                            }}
+                          />
+                        )}
+                        <div>
+                          {fieldState.error && (
+                            <span role="alert">{fieldState.error.message}</span>
+                          )}
+                        </div>
+                        <Button
+                          variant="outlined"
+                          component="span"
+                          startIcon={<VideoCameraBack fontSize="large" />}
+                          onClick={open}
+                        >
+                          Upload Video
                         </Button>
                       </div>
                     </div>
@@ -891,7 +1115,7 @@ const AddProduct: React.FC<IProduct> = ({
                     )}
                   />
                 )}
-                onChange={(e, data) => onChange(data)}
+                onChange={(_e, data) => onChange(data)}
               />
             )}
           />
@@ -928,7 +1152,7 @@ const AddProduct: React.FC<IProduct> = ({
                     )}
                   />
                 )}
-                onChange={(e, data) => onChange(data)}
+                onChange={(_e, data) => onChange(data)}
               />
             )}
           />
@@ -1045,7 +1269,7 @@ const AddProduct: React.FC<IProduct> = ({
                   placeholder={t("seller.post.add_product.tags_placeholder")}
                 />
               )}
-              onChange={(e, data) => onChange(data)}
+              onChange={(_e, data) => onChange(data)}
             />
           )}
         />
@@ -1284,7 +1508,7 @@ const AddProduct: React.FC<IProduct> = ({
                           <Grid item xs={1}>
                             <div
                               className="font-icon-wrapper"
-                              onClick={(event) => removeItem(data.options.id)}
+                              onClick={(_event) => removeItem(data.options.id)}
                             >
                               <IconButton aria-label="delete">
                                 <Delete />

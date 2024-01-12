@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IRound } from "./Types";
+import {baseUrl} from "../Helpers/baseUrl"
 
 export function numberWithCommas(x: number) {
 
@@ -53,6 +54,43 @@ export const uploadImages = async (images: FileList[]) => {
   }
   return updatedImages;
 };
+
+
+
+export const uploadVideo = async (videos: any) => {
+  const updatedVideoUrls: string[] = [];
+
+  const formData = new FormData();
+
+  for (let i = 0; i < videos.length; i++) {
+    formData.append('videos', videos[i]);
+  }
+
+  formData.append('duration', '30'); // Add the default duration or get it from the user input
+
+  try {
+    const response = await axios.post(
+      baseUrl,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
+    const newData = response.data;
+    if (newData.videoUrls && Array.isArray(newData.videoUrls)) {
+      updatedVideoUrls.push(...newData.videoUrls);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
+  return updatedVideoUrls;
+};
+
+
 export const countryList: string[] = [
   "Australia",
   "Austria",
