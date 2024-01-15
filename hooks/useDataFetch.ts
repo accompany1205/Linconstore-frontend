@@ -896,7 +896,7 @@ export const useHandlePayment = (onSuccess: any) => {
 
   const handleCheckout = async (data: object) => {
     const language = localStorage.getItem("currentLanguage") || "en";
-    console.log({ language });
+    // console.log({ language });
     const response = await axios.post(
       `${baseUrl}/user/payment`,
       { ...data, language },
