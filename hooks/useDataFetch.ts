@@ -3,7 +3,10 @@ import { useMutation, useQuery } from "react-query";
 import { useContext } from "react";
 import ContextApi from "../Store/context/ContextApi";
 import { baseUrl } from "../Helpers/baseUrl";
-import { contactUsDefaultValue, contactReplyDefaultValue } from "../Helpers/Types";
+import {
+  contactUsDefaultValue,
+  contactReplyDefaultValue,
+} from "../Helpers/Types";
 import { useSelector } from "react-redux";
 import {
   IChatRoom,
@@ -289,11 +292,13 @@ export const useGetStoreReviews = (onSuccess: any) => {
   const getStoreReviews = async () => {
     const response = await axios.get(`${baseUrl}/store/reviews`, config);
 
-    const reviewDatas = response ? response.data[0][0].ratings.map(data => ({
-      rate: data.rating,
-      name: data.name,
-      description: data.comment ? data.comment : ""
-    })) : [];
+    const reviewDatas = response
+      ? response.data[0][0].ratings.map((data) => ({
+          rate: data.rating,
+          name: data.name,
+          description: data.comment ? data.comment : "",
+        }))
+      : [];
 
     return reviewDatas;
   };
@@ -337,17 +342,25 @@ export const useStoreExpenseOrders = (onSuccess: any) => {
     const response = await axios.get(`${baseUrl}/seller/storeExpense`, config);
     return response.data;
   };
-  return useQuery(`getStoreExpenseOrders`, getOrderExpensesHandler, { onSuccess });
+  return useQuery(`getStoreExpenseOrders`, getOrderExpensesHandler, {
+    onSuccess,
+  });
 };
 
 export const useBillingPayment = (onSuccess: any) => {
   const config = useContext(ContextApi).config;
   const handleBillingPayment = async (data: object) => {
-    const response = await axios.post(`${baseUrl}/seller/withdraw`, data, config);
-    return response.data
+    const response = await axios.post(
+      `${baseUrl}/seller/withdraw`,
+      data,
+      config
+    );
+    return response.data;
   };
-  return useMutation("handleBillingPaymentmut", handleBillingPayment, { onSuccess });
-}
+  return useMutation("handleBillingPaymentmut", handleBillingPayment, {
+    onSuccess,
+  });
+};
 
 export const useCheckInvoiceDownload = (onSuccess: any) => {
   const config = useContext(ContextApi).config;
@@ -451,14 +464,13 @@ export const useGetSellerInfo = (onSuccess: any) => {
   if (config) {
     const getSellerHandler = async () => {
       if (isLoggedIn == false) {
-        let response = {}
+        let response = {};
         return response;
       } else {
         if (role == "seller") {
           const response = await axios.get(`${baseUrl}/seller/me`, config);
           return response.data;
         }
-
       }
     };
     return useQuery("get Seller", getSellerHandler, {
@@ -468,7 +480,6 @@ export const useGetSellerInfo = (onSuccess: any) => {
     });
   }
 };
-
 
 type getSellerRequest = {
   _id: string;
@@ -737,10 +748,10 @@ export const useDeleteWish = (onSuccess: any) => {
         config
       );
       return response.data;
-
     } else {
       const response = await axios.post(
-        `${baseUrl}/wishlist`, { ids: data },
+        `${baseUrl}/wishlist`,
+        { ids: data },
         config
       );
       return response.data;
@@ -884,7 +895,13 @@ export const useHandlePayment = (onSuccess: any) => {
   const config = useContext(ContextApi).config;
 
   const handleCheckout = async (data: object) => {
-    const response = await axios.post(`${baseUrl}/user/payment`, data, config);
+    const language = localStorage.getItem("currentLanguage") || "en";
+    console.log({ language });
+    const response = await axios.post(
+      `${baseUrl}/user/payment`,
+      { ...data, language },
+      config
+    );
 
     return response.data;
   };
@@ -899,7 +916,7 @@ export const useVerifyUserPayment = (onSuccess: any) => {
       `${baseUrl}/user/verify/payment`,
       {
         address,
-        "donesticShipping": donesticShipping
+        donesticShipping: donesticShipping,
       },
       config
     );
@@ -945,10 +962,16 @@ export const useAdminLogin = (onSuccess: any) => {
 export const useGetAdminVerifyCode = (onSuccess: any) => {
   const config = useContext(ContextApi).config;
   const handleGetAdminVerifyCode = async (data: object) => {
-    const response = await axios.post(`${baseUrl}/admin/verifyCode`, data, config);
+    const response = await axios.post(
+      `${baseUrl}/admin/verifyCode`,
+      data,
+      config
+    );
     return response.data;
   };
-  return useMutation("getAdminVerifyCode", handleGetAdminVerifyCode, { onSuccess });
+  return useMutation("getAdminVerifyCode", handleGetAdminVerifyCode, {
+    onSuccess,
+  });
 };
 
 export const useVerifyAdmin = (onSuccess: any) => {
@@ -1173,7 +1196,11 @@ export const useDeleteContact = (onSuccess: any) => {
 export const useReplyContact = (onSuccess: any) => {
   const config = useContext(ContextApi).adminConfig;
   const handleReplyContact = async (data: contactReplyDefaultValue) => {
-    const response = await axios.post(`${baseUrl}/admin/reply/contact`, data, config);
+    const response = await axios.post(
+      `${baseUrl}/admin/reply/contact`,
+      data,
+      config
+    );
     return response.data;
   };
   return useMutation("replyContact", handleReplyContact, {
@@ -1294,7 +1321,11 @@ export const useFetchRefunds = (onSuccess: any) => {
 export const useSellerUpdateRefund = (onSuccess: any) => {
   const config = useContext(ContextApi).config;
   const updateRefundHandler = async (data: any) => {
-    const response = await axios.patch(`${baseUrl}/seller/refunds/status/${data.id}`, { status: data.status }, config);
+    const response = await axios.patch(
+      `${baseUrl}/seller/refunds/status/${data.id}`,
+      { status: data.status },
+      config
+    );
     return response.data;
   };
   return useMutation("update Refund", updateRefundHandler, {
@@ -1305,7 +1336,11 @@ export const useSellerUpdateRefund = (onSuccess: any) => {
 export const useAdminModifyRefund = (onSuccess: any) => {
   const config = useContext(ContextApi).adminConfig;
   const updateAdminRefundHandler = async (data: any) => {
-    const response = await axios.patch(`${baseUrl}/admin/refund/${data.id}`, { status: data.status }, config);
+    const response = await axios.patch(
+      `${baseUrl}/admin/refund/${data.id}`,
+      { status: data.status },
+      config
+    );
     return response.data;
   };
   return useMutation("update Admin Refund", updateAdminRefundHandler, {
@@ -1542,7 +1577,11 @@ export const usePostUserExperience = (onSuccess: any) => {
 export const useReadFeedback = (onSuccess: any) => {
   const config = useContext(ContextApi).adminConfig;
   const handleReadFeedback = async (data: any) => {
-    const response = await axios.patch(`${baseUrl}/admin/feedback/${data.id}`, {}, config);
+    const response = await axios.patch(
+      `${baseUrl}/admin/feedback/${data.id}`,
+      {},
+      config
+    );
     return response.data;
   };
   return useMutation("readFeedback", handleReadFeedback, {
@@ -1729,7 +1768,10 @@ export const useGetAllTemplates = (onSuccess: any) => {
 export const useGetTemplate = (onSuccess: any) => {
   const config = useContext(ContextApi).config;
   const getTemplateByIdHandler = async (data: any) => {
-    const response = await axios.get(`${baseUrl}/seller/template/${data.id}`, config);
+    const response = await axios.get(
+      `${baseUrl}/seller/template/${data.id}`,
+      config
+    );
     return response.data;
   };
   return useQuery("getTemplate", getTemplateByIdHandler, { onSuccess });
@@ -1745,7 +1787,9 @@ export const useUpdateTemplate = (onSuccess: any) => {
     );
     return response.data;
   };
-  return useMutation("handleUpdateTemplate", handleUpdateTemplate, { onSuccess });
+  return useMutation("handleUpdateTemplate", handleUpdateTemplate, {
+    onSuccess,
+  });
 };
 
 export const useCreateTemplate = (onSuccess: any) => {
@@ -1758,5 +1802,8 @@ export const useCreateTemplate = (onSuccess: any) => {
     );
     return response.data;
   };
-  return useMutation("createproduct", createTemplateHandler, { onSuccess, onError: (error: any) => error });
+  return useMutation("createproduct", createTemplateHandler, {
+    onSuccess,
+    onError: (error: any) => error,
+  });
 };
