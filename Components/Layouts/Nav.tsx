@@ -170,7 +170,11 @@ export default function Nav(props: INav) {
       }
       if (search.length === 0) return;
       setShowSearchBox(false)
-      window.location.replace(`/search/${search + "&category=" + id + "&tag="}`);
+      const language = localStorage.getItem('currentLanguage') || 'en';
+      if (language !== 'en')
+        router.push(`/${language}/search/${search + "&category=" + id + "&tag="}`)
+      else
+        router.push(`/search/${search + "&category=" + id + "&tag="}`)
     },
     [search, category]
   );
@@ -190,7 +194,11 @@ export default function Nav(props: INav) {
     }
     setShowSearchBox(false)
     // window.location.replace(`/search/${search + "&category=" + id + "&tag=" + tag}`);
-    router.push(`/search/${search + "&category=" + id + "&tag=" + tag}`)
+    const language = localStorage.getItem('currentLanguage') || 'en';
+    if (language !== 'en')
+      router.push(`/${language}/search/${search + "&category=" + id + "&tag=" + tag}`)
+    else
+      router.push(`/search/${search + "&category=" + id + "&tag=" + tag}`)
   }, [search]);
 
   const handleLogouts = useContext(ContextApi).handleLogout;
