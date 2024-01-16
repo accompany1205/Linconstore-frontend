@@ -189,7 +189,8 @@ export default function Nav(props: INav) {
       tag = item.tag
     }
     setShowSearchBox(false)
-    window.location.replace(`/search/${search + "&category=" + id + "&tag=" + tag}`);
+    // window.location.replace(`/search/${search + "&category=" + id + "&tag=" + tag}`);
+    router.push(`/search/${search + "&category=" + id + "&tag=" + tag}`)
   }, [search]);
 
   const handleLogouts = useContext(ContextApi).handleLogout;

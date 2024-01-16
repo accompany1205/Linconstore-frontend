@@ -45,7 +45,7 @@ const SearchResults: React.JSXElementConstructor<IResults> = ({
   products,
 }) => {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const userString = Cookies.get("userInfo");
   const [countryRate, setCountryRate] = useState<number>(1);
   const [currencySymbol, setCurrencySymbol] = useState<string>("$");
@@ -54,6 +54,9 @@ const SearchResults: React.JSXElementConstructor<IResults> = ({
   const [filterRProducts, setFilterRProducts] = useState<TProducts[]>(relatedProducts.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()));
 
   useEffect(() => {
+    const language = localStorage.getItem("currentLanguage") ?? "en"
+    i18n.changeLanguage(language);
+    
     const handleRouteChange = () => {
       localStorage.setItem("searchScrollPos", window.scrollY.toString());
     };
@@ -77,7 +80,7 @@ const SearchResults: React.JSXElementConstructor<IResults> = ({
     let fAds = tempAds
     let fProducts = products
     let fRProducts = relatedProducts
-    if(data){
+    if (data) {
       if (data.pricing == "lowest") {
         fAds = tempAds.slice().sort((a, b) => a.productId?.price - b.productId?.price);
         fProducts = products.slice().sort((a, b) => a.price - b.price);
@@ -87,11 +90,11 @@ const SearchResults: React.JSXElementConstructor<IResults> = ({
         fProducts = products.slice().sort((a, b) => b.price - a.price);
         fRProducts = relatedProducts.slice().sort((a, b) => b.price - a.price);
       }
-  
+
       fAds = fAds.filter((ad) => ad.productId?.condition == data.condition)
       fProducts = fProducts.filter((p) => p.condition == data.condition)
       fRProducts = fRProducts.filter((p) => p.condition == data.condition)
-  
+
       if (data.discount == "discount") {
         fAds = fAds.filter((ad) => ad.productId?.discount)
         fProducts = fProducts.filter((p) => p.discount)
@@ -101,7 +104,7 @@ const SearchResults: React.JSXElementConstructor<IResults> = ({
         fProducts = fProducts.filter((p) => !p.discount)
         fRProducts = fRProducts.filter((p) => !p.discount)
       }
-  
+
       if (data.itemOrder == "newListing") {
         const currentDate = new Date();
         fAds = fAds.filter((ad) => {
