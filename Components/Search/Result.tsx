@@ -44,6 +44,7 @@ const SearchResults: React.JSXElementConstructor<IResults> = ({
   relatedProducts,
   products,
 }) => {
+
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const userString = Cookies.get("userInfo");
@@ -56,7 +57,7 @@ const SearchResults: React.JSXElementConstructor<IResults> = ({
   useEffect(() => {
     const language = localStorage.getItem("currentLanguage") ?? "en"
     i18n.changeLanguage(language);
-    
+
     const handleRouteChange = () => {
       localStorage.setItem("searchScrollPos", window.scrollY.toString());
     };
@@ -73,6 +74,10 @@ const SearchResults: React.JSXElementConstructor<IResults> = ({
       clearTimeout(timeout);
     };
   }, []);
+
+  useEffect(() => {
+    setFilterProducts(products.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()));
+  }, [products])
 
   //TODO Add filter function
   const onFilter = (data) => {

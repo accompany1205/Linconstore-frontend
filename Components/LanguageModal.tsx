@@ -72,7 +72,7 @@ const LanguageModalComponet: React.FC = () => {
       <DialogContent>
         <LanguageSelect
           SelectProps={{ MenuProps: { sx: { maxHeight: "30%" } } }}
-          onChange={(e) => console.log(e)}
+          onChange={(e) => {console.log(e)}}
         ></LanguageSelect>
       </DialogContent>
       <DialogActions>
