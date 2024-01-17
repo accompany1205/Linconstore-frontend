@@ -101,7 +101,9 @@ export default function RegisterPage() {
   const onSubmit: SubmitHandler<createUserDefaultValue> = async (data) => {
     const currency: any = await handleRateCountryChange(country)
     const tmpLang = languages.find(({ code, country }) => country?.toLowerCase() === currency.code?.toLowerCase() || code?.toLowerCase() === currency.code?.toLowerCase());
-    const language = tmpLang?.code ?? localStorage.getItem("currentLanguage");
+    // const language = tmpLang?.code ?? localStorage.getItem("currentLanguage");
+    const language = localStorage.getItem("currentLanguage") || 'en';
+
     const registerData = {
       password: data.password,
       email: data.email,

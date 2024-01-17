@@ -134,6 +134,9 @@ const Home: NextPage = () => {
   const handleClose = () => {
     // setOpen(false);
     Cookies.set("currentLanguage", i18n.language, { expires: 7, secure: true });
+    const language = localStorage.getItem("currentLanguage") || 'en';
+    i18n.changeLanguage(language);
+    localStorage.setItem("currentLanguage", language);
     dispatch(setLanguageModal(false));
     dispatch(setModalCookie(true));
   };
@@ -253,7 +256,11 @@ const Home: NextPage = () => {
           <DialogContent>
             <LanguageSelect
               SelectProps={{ MenuProps: { sx: { maxHeight: "30%" } } }}
-              onChange={(e) => console.log(e)}
+              onChange={(e) => {
+                // alert(e);
+                i18n.changeLanguage(e);
+                localStorage.setItem("currentLanguage", e);
+              }}
             ></LanguageSelect>
           </DialogContent>
           <DialogActions>
