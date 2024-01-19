@@ -79,6 +79,7 @@ export default function Nav(props: INav) {
     handleMobileMenuClose();
   };
   const handleChange = (event: SelectChangeEvent) => {
+    console.log("handleChange:", event.target.value);
     setCategory(event.target.value);
   };
   const isLoggedIn = useContext(ContextApi).isLoggedIn;
@@ -125,7 +126,14 @@ export default function Nav(props: INav) {
 
   const [allCategories, setAllCategories] = useState<ICat[]>([]);
   const onSuccess = (data: ICat[]) => {
+    console.log({ data });
     setAllCategories(data);
+    const { search } = router.query;
+    const _category = search.toString().split("category=")[1].split("&tag=")[0];
+    console.log({ _category });
+    if (_category) {
+      setCategory(data.filter(_item => _item._id === _category)[0].title);
+    }
   };
   useGetAllCategories(onSuccess);
 
@@ -233,6 +241,7 @@ export default function Nav(props: INav) {
       setSearch(`${props.searchaValue}`);
     }
   }, [props.searchaValue]);
+
   const handleRefetchCart = () => {
     refetch();
   };
