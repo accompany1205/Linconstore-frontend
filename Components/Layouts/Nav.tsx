@@ -129,10 +129,12 @@ export default function Nav(props: INav) {
     console.log({ data });
     setAllCategories(data);
     const { search } = router.query;
-    const _category = search.toString().split("category=")[1].split("&tag=")[0];
-    console.log({ _category });
-    if (_category) {
-      setCategory(data.filter(_item => _item._id === _category)[0].title);
+    if(search){
+      const _category = search.toString().split("category=")[1].split("&tag=")[0];
+      console.log({ _category });
+      if (_category) {
+        setCategory(data.filter(_item => _item._id === _category)[0].title);
+      }
     }
   };
   useGetAllCategories(onSuccess);

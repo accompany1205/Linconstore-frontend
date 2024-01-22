@@ -169,6 +169,7 @@ export const useGetStoreInfo = () => {
 export const useGetUserStore = (onSuccess: any) => {
   const handleGetUserStore = async () => {
     const response = await apiCall({ route: "/seller/store" });
+    console.log({ response });
     return response.data;
   };
 
