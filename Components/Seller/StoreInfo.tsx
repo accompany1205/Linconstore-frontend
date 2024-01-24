@@ -148,8 +148,8 @@ const StoreInfo: React.JSXElementConstructor<any> = () => {
   const [limit, setLimit] = useState<string>("");
   const router = useRouter();
   const onSellerStoreSuccess = (data: any) => {
-    Cookies.set("role", "seller",{expires:3, secure: true});
-    Cookies.set("completed", "true",{expires:3, secure: true});
+    Cookies.set("role", "seller", { expires: 3, secure: true });
+    Cookies.set("completed", "true", { expires: 3, secure: true });
     // localStorage.setItem("role", "seller");
     // localStorage.setItem("completed", "true");
     const status = Cookies.get("status");
@@ -162,10 +162,12 @@ const StoreInfo: React.JSXElementConstructor<any> = () => {
   };
   // const {isLoading: isLoadingOnboard,refetch,} = useSellerOnboard(onSellerStoreSuccess)
   const onSuccess = (data: any) => {
+    localStorage.removeItem("postStore");
+    localStorage.removeItem('seller-setup-plan');
     reset();
-    Cookies.set("role", "seller",{expires:3, secure: true});
-    Cookies.set("status", "seller",{expires:3, secure: true});
-    Cookies.set("completed", "true",{expires:3, secure: true});
+    Cookies.set("role", "seller", { expires: 3, secure: true });
+    Cookies.set("status", "seller", { expires: 3, secure: true });
+    Cookies.set("completed", "true", { expires: 3, secure: true });
     // localStorage.setItem("role", "seller");
     // localStorage.setItem("status", "seller");
     // localStorage.setItem("completed", "true");
@@ -241,7 +243,7 @@ const StoreInfo: React.JSXElementConstructor<any> = () => {
           noValidate
           sx={{ mt: 0 }}
         >
-          
+
           <Typography mb={1}>{t("storeinfo.Your_store_logo")}</Typography>
 
           <Controller
@@ -259,12 +261,12 @@ const StoreInfo: React.JSXElementConstructor<any> = () => {
                   }}
                 />
                 <Tooltip key="Select Image" title={"Business picture"}>
-                  
+
                   <label htmlFor="attachment">
                     <Button
                       // variant="contained"
                       component="span"
-                      // startIcon={<PhotoCamera fontSize="large" />}
+                    // startIcon={<PhotoCamera fontSize="large" />}
                     >
                       <Avatar
                         src={
@@ -285,7 +287,7 @@ const StoreInfo: React.JSXElementConstructor<any> = () => {
             {errors?.attachment?.message}
           </FormHelperText>
 
-          <Divider sx={{my: 1}} />
+          <Divider sx={{ my: 1 }} />
 
           <Grid container spacing={1}>
             <Grid item sm={6} xs={12}>
@@ -382,7 +384,7 @@ const StoreInfo: React.JSXElementConstructor<any> = () => {
               />
             </Grid>
           </Grid>
-          
+
           {isError && (
             <FormHelperText sx={{ color: "red" }}>
               {error?.response?.data?.status}

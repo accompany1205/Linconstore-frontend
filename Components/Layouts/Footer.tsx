@@ -74,6 +74,17 @@ const Footer: React.FC = () => {
     window.open(url, "_blank");
   };
 
+  useEffect(() => {
+    const sellerSetupPlan = localStorage.getItem('seller-setup-plan') || "";
+    if (sellerSetupPlan === 'free') {
+      if (!isLoggedIn) router.push("/login");
+      else {
+        router.push("/seller/setup");
+      }
+      
+    }
+  }, [])
+
   return (
     <Paper
       sx={{ background: "#fbfbfb", p: 3, color: "#ffffff" }}

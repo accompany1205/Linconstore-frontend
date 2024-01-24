@@ -7,7 +7,7 @@ import {
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHandleSellerSub } from "../../hooks/useDataFetch";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
@@ -64,6 +64,7 @@ const PackageCard: React.JSXElementConstructor<Icard> = ({ type }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+
   const [plan, setPlan] = useState<string>("");
   const handlePayment = (name: string) => {
     let plan: string;
@@ -75,7 +76,9 @@ const PackageCard: React.JSXElementConstructor<Icard> = ({ type }) => {
     setPlan(plan);
   };
   const onSuccess = (data: any) => {
+    console.log("onSuccess", { data });
     if (data.type === "free") {
+      localStorage.setItem("seller-setup-plan", "free");
       return;
     } else {
       localStorage.setItem("sellerSub", "sellerSub");
@@ -88,6 +91,13 @@ const PackageCard: React.JSXElementConstructor<Icard> = ({ type }) => {
     mutate: subscribe,
     isSuccess,
   } = useHandleSellerSub(onSuccess);
+
+  useEffect(() => {
+    const _plan = localStorage.getItem('seller-setup-plan') || "";
+    if (_plan === 'free') {
+      handlePayment('free');
+    }
+  }, [])
 
 
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -200,6 +210,7 @@ const PackageCard: React.JSXElementConstructor<Icard> = ({ type }) => {
       )}
 
       {isSuccess && plan === "free" && <StoreInfo />}
+      {/* {plan === "free" && <StoreInfo />} */}
     </>
   );
 };
